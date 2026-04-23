@@ -1,4 +1,4 @@
-import { db, doc, onSnapshot, collection, addDoc } from './firebase-config.js';
+import { db, doc, onSnapshot, collection, addDoc, query, orderBy } from './firebase-config.js';
 
 // Elements to update
 const elements = {
@@ -16,37 +16,29 @@ const elements = {
     clientLabel: document.getElementById('client-label'),
     awardsLabel: document.getElementById('awards-label'),
     experienceLabel: document.getElementById('experience-label'),
-    toolsContainer: document.getElementById('tools-container')
+    toolsContainer: document.getElementById('tools-container'),
+    mainGallery: document.getElementById('main-gallery-grid')
 };
 
 // Real-time listener for Firestore data
 onSnapshot(doc(db, "portfolio", "main"), (doc) => {
     if (doc.exists()) {
         const data = doc.data();
-        
-        // Profile
         if (elements.displayName) elements.displayName.innerHTML = (data.name || "Im,<br>Your<br>Name").replace(/\n/g, '<br>');
         if (elements.displayEmail) elements.displayEmail.innerHTML = `${data.email || "hello@example.com"} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
         if (elements.portfolioTitle) elements.portfolioTitle.textContent = data.title || "Portfolio";
-        
-        // Stats
         if (elements.totalEngagement) elements.totalEngagement.textContent = data.engagement || "0.0M+";
         if (elements.projectsCount) elements.projectsCount.textContent = data.projects || "0";
         if (elements.awardsCount) elements.awardsCount.textContent = data.awards || "0";
         if (elements.globalAwardsCount) elements.globalAwardsCount.textContent = data.globalAwards || "0";
         if (elements.experienceYears) elements.experienceYears.textContent = data.experience || "0+";
-        
-        // Labels
         if (data.awardsLabel && elements.awardsLabel) elements.awardsLabel.innerHTML = data.awardsLabel.replace(/\n/g, '<br>');
         if (data.experienceLabel && elements.experienceLabel) elements.experienceLabel.innerHTML = data.experienceLabel.replace(/\n/g, '<br>');
         if (data.clientLabel && elements.clientLabel) elements.clientLabel.textContent = data.clientLabel;
         if (data.clientLogo && elements.clientLogo) elements.clientLogo.textContent = data.clientLogo;
-
-        // Media
         if (data.videoUrl && elements.videoThumbnail) elements.videoThumbnail.src = data.videoUrl;
         if (data.sphereUrl && elements.sphereImage) elements.sphereImage.src = data.sphereUrl;
 
-        // Tools / Tech Stack
         if (data.tools && elements.toolsContainer) {
             elements.toolsContainer.innerHTML = '';
             const toolsList = Array.isArray(data.tools) ? data.tools : data.tools.split(',');
@@ -59,6 +51,55 @@ onSnapshot(doc(db, "portfolio", "main"), (doc) => {
         }
     }
 });
+
+// Fetch Gallery for Landing Page
+if (elements.mainGallery) {
+    onSnapshot(query(collection(db, "artworks"), orderBy("createdAt", "desc")), (snapshot) => {
+        elements.mainGallery.innerHTML = '';
+        snapshot.forEach(doc => {
+            const art = doc.data();
+            const card = document.createElement('div');
+            card.className = 'art-card';
+            card.innerHTML = `
+                <img src="${art.imageUrl}" alt="${art.title}">
+                <div class="art-info">
+                    <h3>${art.title || 'Untitled'}</h3>
+                    <p>${art.description || 'Premium Drawing'}</p>
+                </div>
+            `;
+            elements.mainGallery.appendChild(card);
+        });
+    });
+}
+
+// GSAP Scroll Animation: Paper into Printer
+gsap.registerPlugin(ScrollTrigger);
+
+const tl = gsap.timeline({
+    scrollTrigger: {
+        trigger: "#scroll-wrapper",
+        start: "top top",
+        end: "+=150%",
+        pin: true,
+        scrub: 1,
+    }
+});
+
+tl.to("#hero-section", {
+    rotateX: -15,
+    scale: 0.8,
+    y: "-50%",
+    opacity: 0,
+    ease: "power2.inOut"
+}, 0);
+
+tl.to("#gallery-section", {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    marginTop: 0,
+    ease: "power2.out"
+}, 0.2);
 
 // Modal Logic
 const modal = document.getElementById('modal-overlay');
@@ -80,7 +121,6 @@ if (closeBtn) {
     });
 }
 
-// Form Submission
 if (requestForm) {
     requestForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -114,7 +154,7 @@ if (requestForm) {
     });
 }
 
-// Hidden Slider Logic (Secret Entrance)
+// Hidden Slider Logic
 const aboutMeTag = document.getElementById('about-me-tag');
 let isDragging = false;
 let startX = 0;
@@ -126,7 +166,6 @@ if (aboutMeTag) {
         startX = clientX - currentX;
         aboutMeTag.style.transition = 'none';
         aboutMeTag.style.scale = '1.05';
-        aboutMeTag.style.boxShadow = '0 10px 30px rgba(108, 92, 231, 0.4)';
     };
 
     const handleMove = (clientX) => {
@@ -138,7 +177,6 @@ if (aboutMeTag) {
         if (move >= 100) {
             isDragging = false;
             aboutMeTag.style.background = '#00b894';
-            aboutMeTag.style.transform = 'translateX(100px) scale(0.9)';
             setTimeout(() => { window.location.href = './auth.html'; }, 200);
         }
     };
@@ -150,8 +188,6 @@ if (aboutMeTag) {
         aboutMeTag.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         aboutMeTag.style.transform = 'translateX(0)';
         aboutMeTag.style.scale = '1';
-        aboutMeTag.style.boxShadow = '0 4px 15px rgba(108, 92, 231, 0.2)';
-        aboutMeTag.style.background = '';
     };
 
     aboutMeTag.addEventListener('mousedown', (e) => handleStart(e.clientX));
