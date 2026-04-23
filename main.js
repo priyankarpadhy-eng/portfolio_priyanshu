@@ -1,4 +1,4 @@
-import { db, doc, onSnapshot } from './firebase-config.js';
+import { db, doc, onSnapshot, collection, addDoc } from './firebase-config.js';
 
 // Elements to update
 const elements = {
@@ -25,29 +25,29 @@ onSnapshot(doc(db, "portfolio", "main"), (doc) => {
         const data = doc.data();
         
         // Profile
-        elements.displayName.innerHTML = (data.name || "Im,<br>Your<br>Name").replace(/\n/g, '<br>');
-        elements.displayEmail.innerHTML = `${data.email || "hello@example.com"} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
-        elements.portfolioTitle.textContent = data.title || "Portfolio";
+        if (elements.displayName) elements.displayName.innerHTML = (data.name || "Im,<br>Your<br>Name").replace(/\n/g, '<br>');
+        if (elements.displayEmail) elements.displayEmail.innerHTML = `${data.email || "hello@example.com"} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
+        if (elements.portfolioTitle) elements.portfolioTitle.textContent = data.title || "Portfolio";
         
         // Stats
-        elements.totalEngagement.textContent = data.engagement || "0.0M+";
-        elements.projectsCount.textContent = data.projects || "0";
-        elements.awardsCount.textContent = data.awards || "0";
-        elements.globalAwardsCount.textContent = data.globalAwards || "0";
-        elements.experienceYears.textContent = data.experience || "0+";
+        if (elements.totalEngagement) elements.totalEngagement.textContent = data.engagement || "0.0M+";
+        if (elements.projectsCount) elements.projectsCount.textContent = data.projects || "0";
+        if (elements.awardsCount) elements.awardsCount.textContent = data.awards || "0";
+        if (elements.globalAwardsCount) elements.globalAwardsCount.textContent = data.globalAwards || "0";
+        if (elements.experienceYears) elements.experienceYears.textContent = data.experience || "0+";
         
         // Labels
-        if (data.awardsLabel) elements.awardsLabel.innerHTML = data.awardsLabel.replace(/\n/g, '<br>');
-        if (data.experienceLabel) elements.experienceLabel.innerHTML = data.experienceLabel.replace(/\n/g, '<br>');
-        if (data.clientLabel) elements.clientLabel.textContent = data.clientLabel;
-        if (data.clientLogo) elements.clientLogo.textContent = data.clientLogo;
+        if (data.awardsLabel && elements.awardsLabel) elements.awardsLabel.innerHTML = data.awardsLabel.replace(/\n/g, '<br>');
+        if (data.experienceLabel && elements.experienceLabel) elements.experienceLabel.innerHTML = data.experienceLabel.replace(/\n/g, '<br>');
+        if (data.clientLabel && elements.clientLabel) elements.clientLabel.textContent = data.clientLabel;
+        if (data.clientLogo && elements.clientLogo) elements.clientLogo.textContent = data.clientLogo;
 
         // Media
-        if (data.videoUrl) elements.videoThumbnail.src = data.videoUrl;
-        if (data.sphereUrl) elements.sphereImage.src = data.sphereUrl;
+        if (data.videoUrl && elements.videoThumbnail) elements.videoThumbnail.src = data.videoUrl;
+        if (data.sphereUrl && elements.sphereImage) elements.sphereImage.src = data.sphereUrl;
 
         // Tools / Tech Stack
-        if (data.tools) {
+        if (data.tools && elements.toolsContainer) {
             elements.toolsContainer.innerHTML = '';
             const toolsList = Array.isArray(data.tools) ? data.tools : data.tools.split(',');
             toolsList.forEach(tool => {
@@ -60,18 +60,59 @@ onSnapshot(doc(db, "portfolio", "main"), (doc) => {
     }
 });
 
-// Interactions
-document.querySelectorAll('.stat-card, .video-card, .clients-card, .awards-card, .extra-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-5px)';
-        card.style.boxShadow = '0 10px 30px rgba(255, 102, 196, 0.15)';
+// Modal Logic
+const modal = document.getElementById('modal-overlay');
+const openBtn = document.getElementById('open-request-form');
+const closeBtn = document.getElementById('close-modal');
+const requestForm = document.getElementById('artwork-request-form');
+
+if (openBtn) {
+    openBtn.addEventListener('click', () => {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
     });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0)';
-        card.style.boxShadow = 'none';
+}
+
+if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
     });
-});
+}
+
+// Form Submission
+if (requestForm) {
+    requestForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submit-request');
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        const formData = {
+            name: document.getElementById('req-name').value,
+            whatsapp: document.getElementById('req-whatsapp').value,
+            phone: document.getElementById('req-phone').value,
+            imageUrl: document.getElementById('req-image').value,
+            address: document.getElementById('req-address').value,
+            allowShowcase: document.getElementById('req-showcase').checked,
+            status: 'pending',
+            createdAt: new Date().toISOString()
+        };
+
+        try {
+            await addDoc(collection(db, "leads"), formData);
+            alert("Request sent successfully! We will contact you on WhatsApp soon.");
+            requestForm.reset();
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        } catch (error) {
+            alert("Error sending request: " + error.message);
+        } finally {
+            submitBtn.textContent = 'Send Request';
+            submitBtn.disabled = false;
+        }
+    });
+}
 
 // Hidden Slider Logic (Secret Entrance)
 const aboutMeTag = document.getElementById('about-me-tag');

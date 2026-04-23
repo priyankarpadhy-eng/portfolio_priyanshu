@@ -104,11 +104,55 @@
             </div>
         </div>
 
+        <!-- Gallery Management Section -->
+        <div class="dash-section" style="grid-column: 1 / -1; margin-top: 30px;">
+            <h3>🖼️ Art Gallery Manager</h3>
+            <div class="grid-inner" style="grid-template-columns: 1fr 1fr 1fr;">
+                <div class="input-group">
+                    <label>Art Title</label>
+                    <input type="text" id="art-title" placeholder="E.g. Neon Portrait">
+                </div>
+                <div class="input-group">
+                    <label>Image URL (Backblaze B2)</label>
+                    <input type="text" id="art-url" placeholder="https://...">
+                </div>
+                <div class="input-group">
+                    <label>Action</label>
+                    <button id="add-art-btn" class="dash-btn btn-primary" style="width: 100%; margin: 0;">Add to Gallery</button>
+                </div>
+            </div>
+            <div id="gallery-list" class="item-list" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
+                <!-- Art list items -->
+            </div>
+        </div>
+
+        <!-- Customer Leads Section -->
+        <div class="dash-section" style="grid-column: 1 / -1; margin-top: 30px;">
+            <h3>📩 Customer Requests (Leads)</h3>
+            <div id="leads-container" class="leads-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                <!-- Leads will be injected here -->
+            </div>
+        </div>
+
         <!-- Final Action -->
         <div class="save-bar">
-            <button id="save-all" class="dash-btn btn-primary">Publish Updates to Site</button>
+            <button id="save-all" class="dash-btn btn-primary">Publish Site Settings</button>
         </div>
     </div>
+
+    <style>
+        .item-list img { width: 100%; border-radius: 10px; border: 2px solid #eee; }
+        .art-item { position: relative; }
+        .delete-art { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer; }
+        
+        .lead-card { background: #f9f9fb; padding: 20px; border-radius: 20px; border: 1px solid #eef; position: relative; }
+        .lead-card h4 { margin: 0 0 10px 0; color: var(--primary-purple); }
+        .lead-card p { margin: 5px 0; font-size: 0.9rem; color: #555; }
+        .lead-card .lead-img { width: 100%; height: 150px; object-fit: cover; border-radius: 15px; margin-top: 10px; }
+        .lead-badge { position: absolute; top: 15px; right: 15px; background: #ddd; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; }
+        .lead-badge.allow { background: #b2bec3; color: white; }
+    </style>
+
 
     <script type="module" src="./dashboard.js"></script>
 </body>

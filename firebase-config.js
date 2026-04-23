@@ -11,10 +11,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+    getFirestore, doc, getDoc, setDoc, onSnapshot, 
+    collection, addDoc, query, orderBy, getDocs, deleteDoc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { 
     getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut,
-    sendEmailVerification, sendPasswordResetEmail 
+    sendEmailVerification, sendPasswordResetEmail, createUserWithEmailAndPassword 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
@@ -25,6 +28,7 @@ const analytics = getAnalytics(app);
 
 export { 
     db, auth, doc, getDoc, setDoc, onSnapshot, 
+    collection, addDoc, query, orderBy, getDocs, deleteDoc,
     signInWithEmailAndPassword, onAuthStateChanged, signOut,
-    sendEmailVerification, sendPasswordResetEmail
+    sendEmailVerification, sendPasswordResetEmail, createUserWithEmailAndPassword
 };

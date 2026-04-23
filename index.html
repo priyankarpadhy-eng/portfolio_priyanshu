@@ -93,10 +93,10 @@
                 </div>
 
                 <!-- Bottom Row -->
-                <div class="clients-card">
+                <div class="clients-card clickable" onclick="window.location.href='./gallery.html'">
                     <span class="card-arrow">⌝</span>
-                    <div class="apple-logo" id="client-logo"></div>
-                    <span class="stat-label" id="client-label">Clients</span>
+                    <div class="apple-logo" id="client-logo">🎨</div>
+                    <span class="stat-label" id="client-label">Art Gallery</span>
                 </div>
 
                 <div class="sphere-card">
@@ -106,15 +106,16 @@
                 <div class="awards-card">
                     <span class="card-arrow">⌝</span>
                     <span class="stat-value" id="global-awards-count">0</span>
-                    <span class="stat-label" id="awards-label">Global Design<br>Awards.</span>
+                    <span class="stat-label" id="awards-label">Artworks<br>Completed.</span>
                 </div>
 
-                <!-- New Expanded Content -->
-                <div class="extra-card">
+                <!-- Request Form Card -->
+                <div class="extra-card clickable" id="open-request-form">
                     <span class="card-arrow">⌝</span>
-                    <span class="stat-value" id="experience-years">0</span>
-                    <span class="stat-label" id="experience-label">Years of<br>Experience</span>
+                    <div class="request-icon">✏️</div>
+                    <span class="stat-label">Get Your<br>Own Drawing</span>
                 </div>
+
 
                 <div class="tools-card" id="tools-container">
                     <!-- Tool icons will be injected here -->
@@ -123,6 +124,52 @@
             </section>
         </main>
     </div>
+    <!-- Request Artwork Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <h2>🎨 Request a <span>Custom Drawing</span></h2>
+            <p class="privacy-note">We value your privacy. Data is never shared with third parties.</p>
+            
+            <form id="artwork-request-form">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Your Name</label>
+                        <input type="text" id="req-name" required placeholder="John Doe">
+                    </div>
+                    <div class="input-group">
+                        <label>WhatsApp Number</label>
+                        <input type="tel" id="req-whatsapp" required placeholder="+1 234 ...">
+                    </div>
+                    <div class="input-group">
+                        <label>Contact Number</label>
+                        <input type="tel" id="req-phone" placeholder="+1 234 ...">
+                    </div>
+                    <div class="input-group">
+                        <label>Reference Image URL</label>
+                        <input type="text" id="req-image" placeholder="Paste link to your photo">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Your Address (for delivery)</label>
+                    <textarea id="req-address" rows="2" placeholder="123 Art Street, Studio City..."></textarea>
+                </div>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="req-showcase">
+                        <span class="checkmark"></span>
+                        Allow me to showcase your finished drawing on this website as an example.
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-request">Send Request</button>
+            </form>
+        </div>
+    </div>
+
     <script type="module" src="./main.js"></script>
 </body>
 </html>
+

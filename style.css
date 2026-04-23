@@ -564,3 +564,138 @@ body::after {
     }
 }
 
+/* Clickable Elements */
+.clickable {
+   cursor: pointer;
+   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.clickable:hover {
+   transform: translateY(-8px) scale(1.02);
+   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+.request-icon {
+   font-size: 3rem;
+   margin-bottom: 10px;
+}
+
+/* Modal System */
+.modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.6);
+   backdrop-filter: blur(10px);
+   display: none;
+   justify-content: center;
+   align-items: center;
+   z-index: 1000;
+   opacity: 0;
+   transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+   display: flex;
+   opacity: 1;
+}
+
+.modal-content {
+   background: white;
+   width: 90%;
+   max-width: 600px;
+   padding: 40px;
+   border-radius: 40px;
+   position: relative;
+   box-shadow: 0 30px 100px rgba(0,0,0,0.3);
+   border: 4px solid #ffffff;
+}
+
+.modal-content h2 {
+   font-size: 2rem;
+   color: var(--primary-purple);
+   margin-bottom: 10px;
+}
+
+.modal-content h2 span {
+   color: var(--primary-pink);
+}
+
+.privacy-note {
+   font-size: 0.8rem;
+   color: var(--text-light);
+   margin-bottom: 25px;
+}
+
+.close-modal {
+   position: absolute;
+   top: 25px;
+   right: 25px;
+   background: #f1f2f6;
+   border: none;
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   font-size: 1.5rem;
+   cursor: pointer;
+   transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+   background: #ff7675;
+   color: white;
+   transform: rotate(90deg);
+}
+
+.form-grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 15px;
+   margin-bottom: 15px;
+}
+
+.submit-btn {
+   width: 100%;
+   padding: 18px;
+   background: var(--primary-pink);
+   color: white;
+   border: none;
+   border-radius: 20px;
+   font-size: 1.1rem;
+   font-weight: 900;
+   cursor: pointer;
+   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+   margin-top: 10px;
+}
+
+.submit-btn:hover {
+   transform: scale(1.03);
+   box-shadow: 0 10px 25px rgba(255, 102, 196, 0.4);
+}
+
+.checkbox-group {
+   margin: 15px 0;
+}
+
+.checkbox-container {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   font-size: 0.85rem;
+   color: var(--text-dark);
+   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+   .form-grid {
+       grid-template-columns: 1fr;
+   }
+   .modal-content {
+       padding: 25px;
+       border-radius: 30px;
+   }
+}
+
+
