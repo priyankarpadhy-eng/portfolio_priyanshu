@@ -489,8 +489,10 @@ body::after {
     writing-mode: horizontal-tb;
     transform: none;
   }
+}
 
 /* Responsive Design */
+
 @media (max-width: 1024px) {
     body {
         overflow-y: auto;

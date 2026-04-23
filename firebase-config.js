@@ -17,10 +17,15 @@ import {
     sendEmailVerification, sendPasswordResetEmail 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
+
+
 
 export { 
     db, auth, doc, getDoc, setDoc, onSnapshot, 
