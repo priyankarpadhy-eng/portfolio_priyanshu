@@ -117,14 +117,22 @@
         <form class="auth-form" id="auth-form">
             <input type="email" id="email" class="auth-input" placeholder="Email Address" required>
             <input type="password" id="password" class="auth-input" placeholder="Password" required>
+            <div style="text-align: right; margin-top: -10px;">
+                <a href="#" id="forgot-password" class="back-link" style="margin: 0; font-size: 0.8rem;">Forgot Password?</a>
+            </div>
             <button type="submit" class="auth-btn" id="submit-btn">Login</button>
         </form>
+
+        <p id="auth-message" style="margin-top: 15px; font-size: 0.9rem; color: #666; display: none;"></p>
 
         <a href="./index.html" class="back-link">← Back to Portfolio</a>
     </div>
 
     <script type="module">
-        import { auth, signInWithEmailAndPassword } from './firebase-config.js';
+        import { 
+            auth, signInWithEmailAndPassword, 
+            sendEmailVerification, sendPasswordResetEmail 
+        } from './firebase-config.js';
         import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const tabLogin = document.getElementById('tab-login');
@@ -132,6 +140,8 @@
         const authTitle = document.getElementById('auth-title');
         const submitBtn = document.getElementById('submit-btn');
         const authForm = document.getElementById('auth-form');
+        const authMessage = document.getElementById('auth-message');
+        const forgotPassword = document.getElementById('forgot-password');
         
         let isLogin = true;
 
@@ -141,6 +151,7 @@
             tabSignup.classList.remove('active');
             authTitle.textContent = "Welcome Back!";
             submitBtn.textContent = "Login";
+            forgotPassword.style.display = "block";
         };
 
         tabSignup.onclick = () => {
@@ -149,6 +160,22 @@
             tabLogin.classList.remove('active');
             authTitle.textContent = "Create Account";
             submitBtn.textContent = "Sign Up";
+            forgotPassword.style.display = "none";
+        };
+
+        forgotPassword.onclick = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert("Please enter your email address first.");
+                return;
+            }
+            try {
+                await sendPasswordResetEmail(auth, email);
+                alert("Password reset email sent! Check your inbox.");
+            } catch (err) {
+                alert(err.message);
+            }
         };
 
         authForm.onsubmit = async (e) => {
@@ -158,14 +185,29 @@
             
             submitBtn.disabled = true;
             submitBtn.textContent = "Processing...";
+            authMessage.style.display = "none";
 
             try {
                 if (isLogin) {
-                    await signInWithEmailAndPassword(auth, email, password);
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    if (!userCredential.user.emailVerified) {
+                        authMessage.textContent = "Please verify your email before logging in. Check your inbox!";
+                        authMessage.style.color = "#d63031";
+                        authMessage.style.display = "block";
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = "Login";
+                        return;
+                    }
+                    window.location.href = './dashboard.html';
                 } else {
-                    await createUserWithEmailAndPassword(auth, email, password);
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    await sendEmailVerification(userCredential.user);
+                    authMessage.textContent = "Registration successful! A verification email has been sent. Please verify to login.";
+                    authMessage.style.color = "#00b894";
+                    authMessage.style.display = "block";
+                    submitBtn.textContent = "Sign Up";
+                    submitBtn.disabled = false;
                 }
-                window.location.href = './dashboard.html';
             } catch (err) {
                 alert(err.message);
                 submitBtn.disabled = false;
@@ -173,5 +215,6 @@
             }
         };
     </script>
+
 </body>
 </html>

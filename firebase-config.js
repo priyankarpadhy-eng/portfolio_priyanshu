@@ -12,12 +12,19 @@ const firebaseConfig = {
 // Initialize Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+import { 
+    getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut,
+    sendEmailVerification, sendPasswordResetEmail 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
 
-export { db, auth, doc, getDoc, setDoc, onSnapshot, signInWithEmailAndPassword, onAuthStateChanged, signOut };
+export { 
+    db, auth, doc, getDoc, setDoc, onSnapshot, 
+    signInWithEmailAndPassword, onAuthStateChanged, signOut,
+    sendEmailVerification, sendPasswordResetEmail
+};
+
