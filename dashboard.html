@@ -4,41 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Portfolio</title>
-    <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./dashboard.css">
 </head>
-<body class="admin-body">
-    <div id="dashboard-container" class="portfolio-wrapper dashboard-hidden">
-        <aside class="sidebar">
-            <a href="./index.html" class="sidebar-item" style="text-decoration: none;">View Site</a>
-            <span class="sidebar-item" id="logout-btn">Logout</span>
-        </aside>
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="dash-header">
+            <h1>Founder <span>Control Center</span></h1>
+            <div class="nav-buttons">
+                <button onclick="window.location.href='./index.html'" class="dash-btn btn-secondary">View Site</button>
+                <button id="logout-btn" class="dash-btn btn-danger">Logout</button>
+            </div>
+        </header>
 
-        <main class="main-content">
-            <section class="profile-card">
-                <div class="about-me-tag">Profile Edit</div>
-                
-                <div class="edit-group">
-                    <label>Profile Image URL (Backblaze B2)</label>
-                    <input type="text" id="edit-portrait-url" placeholder="URL">
-                </div>
-
-                <div class="edit-group">
+        <!-- Main Form -->
+        <div class="dash-grid">
+            <!-- Profile Section -->
+            <div class="dash-section">
+                <h3>Profile Information</h3>
+                <div class="input-group">
                     <label>Full Name (Use \n for line breaks)</label>
-                    <textarea id="edit-name" rows="3"></textarea>
+                    <textarea id="edit-name" rows="3" placeholder="Im,\nJon\nDaniel"></textarea>
                 </div>
-
-                <div class="edit-group">
+                <div class="input-group">
                     <label>Email Address</label>
-                    <input type="email" id="edit-email">
+                    <input type="email" id="edit-email" placeholder="hello@example.com">
                 </div>
-                
-                <button class="save-btn" id="save-profile">Save Profile</button>
-            </section>
-
-            <section class="bento-grid">
-                <div class="header-row">
-                    <div class="input-group">
+                <div class="input-group">
                     <label>Portfolio Title</label>
                     <input type="text" id="edit-title" placeholder="Portfolio">
                 </div>
@@ -46,45 +38,39 @@
                     <label>Engagement Stats</label>
                     <input type="text" id="edit-engagement" placeholder="2.4M+">
                 </div>
+            </div>
+
+            <!-- Media Section -->
+            <div class="dash-section">
+                <h3>Media Assets</h3>
+                <div class="input-group">
+                    <label>Feature Video/Image URL</label>
+                    <input type="text" id="edit-video-url" placeholder="https://...">
+                </div>
+                <div class="input-group">
+                    <label>3D Sphere Image URL</label>
+                    <input type="text" id="edit-sphere-url" placeholder="https://...">
+                </div>
                 <div class="input-group">
                     <label>Tools / Tech Stack (comma separated)</label>
-                    <input type="text" id="edit-tools" placeholder="Figma, Ps, Ai, Ae">
+                    <input type="text" id="edit-tools" placeholder="Ps, Ai, Figma, Ae">
                 </div>
             </div>
 
-            <div class="input-section">
-                <h3>Card Customization</h3>
-                <div class="input-group">
-                    <label>Experience Label</label>
-                    <input type="text" id="edit-experience-label" placeholder="Years of Experience">
-                </div>
-                <div class="input-group">
-                    <label>Global Awards Label</label>
-                    <input type="text" id="edit-awards-label" placeholder="Global Design Awards">
-                </div>
-                <div class="input-group">
-                    <label>Client Label</label>
-                    <input type="text" id="edit-client-label" placeholder="Clients">
-                </div>
-                <div class="input-group">
-                    <label>Client Logo (Text/Emoji)</label>
-                    <input type="text" id="edit-client-logo" placeholder="">
-                </div>
-            </div>
-
-            <div class="input-section">
-                <h3>Metrics</h3>
-                <div class="grid-2">
+            <!-- Metrics Section -->
+            <div class="dash-section">
+                <h3>Core Metrics</h3>
+                <div class="grid-inner">
                     <div class="input-group">
-                        <label>Projects</label>
+                        <label>Projects Count</label>
                         <input type="text" id="edit-projects">
                     </div>
                     <div class="input-group">
-                        <label>Awards</label>
+                        <label>Awards Count</label>
                         <input type="text" id="edit-awards">
                     </div>
                     <div class="input-group">
-                        <label>Global Awards</label>
+                        <label>Global Awards Count</label>
                         <input type="text" id="edit-global-awards">
                     </div>
                     <div class="input-group">
@@ -94,20 +80,33 @@
                 </div>
             </div>
 
-                <div class="video-card edit-mode">
-                    <label>Video/Image URL</label>
-                    <input type="text" id="edit-video-url" class="dash-input">
+            <!-- Labels Section -->
+            <div class="dash-section">
+                <h3>Card Customization (Labels)</h3>
+                <div class="input-group">
+                    <label>Experience Card Label</label>
+                    <input type="text" id="edit-experience-label" placeholder="Years of Experience">
                 </div>
+                <div class="input-group">
+                    <label>Awards Card Label</label>
+                    <input type="text" id="edit-awards-label" placeholder="Global Design Awards">
+                </div>
+                <div class="grid-inner">
+                    <div class="input-group">
+                        <label>Client Label</label>
+                        <input type="text" id="edit-client-label" placeholder="Clients">
+                    </div>
+                    <div class="input-group">
+                        <label>Client Logo (Text/Emoji)</label>
+                        <input type="text" id="edit-client-logo" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <div class="sphere-card edit-mode">
-                    <label>3D Sphere URL</label>
-                    <input type="text" id="edit-sphere-url" class="dash-input">
-                </div>
-            </section>
-        </main>
-        
-        <div class="dashboard-footer">
-            <button id="save-all" class="save-btn">Update All Content</button>
+        <!-- Final Action -->
+        <div class="save-bar">
+            <button id="save-all" class="dash-btn btn-primary">Publish Updates to Site</button>
         </div>
     </div>
 
