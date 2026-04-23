@@ -3,142 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Media Kit</title>
+    <title>Jon Daniel | Design Portfolio</title>
     <link rel="stylesheet" href="./style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body class="bg-gradient">
-    <div id="scroll-wrapper">
-        <!-- Section 1: Main Portfolio -->
-        <section id="hero-section" class="scroll-section">
-            <div class="container" id="main-bento">
-    <div class="portfolio-wrapper">
-        <!-- Vertical Sidebar -->
-        <aside class="sidebar">
-            <div class="nav-links">
-                <!-- Navigation items removed as per request -->
-            </div>
-        </aside>
+    <div id="scroll-container">
+        <!-- Scene 1: The Hero Portfolio -->
+        <section class="section-hero" id="hero-section">
+            <div class="portfolio-wrapper">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="founder-tag" id="about-me-tag">About Me</div>
+                </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Left Profile Card -->
-            <section class="profile-card">
-                <div class="about-me-tag" id="about-me-tag">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
-                    About Me
-                </div>
-                
-                <div class="photo-container">
-                    <div class="photo-glow-inner"></div>
-                    <div class="photo-glow"></div>
-                    <img src="./jon_daniel.png" alt="Jon Daniel" class="profile-photo">
-                </div>
-
-                <div class="profile-name" id="display-name">
-                    Im,<br>Jon<br>Daniel
-                </div>
-
-                <div class="profile-email" id="display-email">
-                    inquiry@jondaniel.design
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                </div>
-
-                <div class="profile-seal">
-                    <svg viewBox="0 0 100 100" width="100%" height="100%">
-                        <defs>
-                            <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
-                        </defs>
-                        <text fill="white" font-family="monospace" font-size="10">
-                            <textPath xlink:href="#circlePath">
-                                MY DESIGN PORTFOLIO • 2023 • 
-                            </textPath>
-                        </text>
-                    </svg>
-                </div>
-            </section>
-
-            <!-- Bento Content -->
-            <section class="bento-grid">
-                <div class="header-row">
-                    <h1 class="portfolio-title" id="portfolio-title">Portfolio</h1>
-                    <div class="engagement-card">
-                        <div class="eng-info">
-                            <span class="eng-label">Total Engagement</span>
-                            <span class="eng-value" id="total-engagement">2.4M+</span>
+                <!-- Main Content -->
+                <main class="main-content">
+                    <section class="profile-card">
+                        <div class="profile-header">
+                            <span class="user-id">Founder.</span>
+                            <div class="p-dot"></div>
                         </div>
-                        <div class="eng-graph">
-                            <svg viewBox="0 0 120 40" class="eng-svg">
-                                <path class="sparkline" id="sparkline-path" d="M0,35 Q15,10 30,25 T60,15 T90,30 T120,5" />
-                                <circle cx="120" cy="5" r="3" fill="var(--primary-purple)" />
-                            </svg>
+                        <h1 id="display-name">Im,<br>Jon<br>Daniel</h1>
+                        <p id="display-email">hello@jondaniel.com <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></p>
+                    </section>
+
+                    <section class="stats-grid">
+                        <div class="header-row">
+                            <h2 id="portfolio-title">Design Portfolio</h2>
+                            <div class="engagement-card">
+                                <div class="eng-info">
+                                    <span class="eng-label">Total Engagement</span>
+                                    <span class="eng-value" id="total-engagement">2.4M+</span>
+                                </div>
+                                <div class="sparkline">
+                                    <svg viewBox="0 0 100 30">
+                                        <path d="M0,25 Q15,5 30,20 T60,10 T100,25" fill="none" stroke="white" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Video Feature -->
-                <div class="video-card">
-                    <img src="./flamingo.png" alt="Flamingo Art" id="video-thumbnail">
-                    <div class="play-btn">▶</div>
-                    <span class="card-arrow" style="color: white; font-size: 1.5rem;">⌝</span>
-                </div>
+                        <div class="stat-card mint">
+                            <span class="card-arrow">⌝</span>
+                            <span class="stat-value" id="projects-count">149</span>
+                            <span class="stat-label">Projects<br>Completed.</span>
+                        </div>
+                        <div class="stat-card purple">
+                            <span class="card-arrow">⌝</span>
+                            <span class="stat-value" id="awards-count">24</span>
+                            <span class="stat-label">Industry<br>Awards.</span>
+                        </div>
 
-                <!-- Stats Column -->
-                <div class="stats-column">
-                    <div class="stat-card mint">
-                        <span class="card-arrow">⌝</span>
-                        <span class="stat-value" id="projects-count">251</span>
-                        <span class="stat-label">Projects</span>
-                    </div>
-                    <div class="stat-card purple">
-                        <span class="card-arrow">⌝</span>
-                        <span class="stat-value" id="awards-count">156</span>
-                        <span class="stat-label">Awards</span>
-                    </div>
-                </div>
+                        <div class="video-card">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Work" id="video-thumbnail">
+                        </div>
 
-                <!-- Bottom Row -->
-                <div class="clients-card clickable" onclick="window.location.href='./gallery.html'">
-                    <span class="card-arrow">⌝</span>
-                    <div class="apple-logo" id="client-logo">🎨</div>
-                    <span class="stat-label" id="client-label">Art Gallery</span>
-                </div>
+                        <div class="clients-card clickable" id="go-to-gallery">
+                            <span class="card-arrow">⌝</span>
+                            <div class="apple-logo" id="client-logo">🎨</div>
+                            <span class="stat-label" id="client-label">Art Gallery</span>
+                        </div>
 
-                <div class="sphere-card">
-                    <img src="./sphere.png" alt="3D Sphere" id="sphere-image">
-                </div>
+                        <div class="sphere-card">
+                            <img src="./sphere.png" alt="3D Sphere" id="sphere-image">
+                        </div>
 
-                <div class="awards-card">
-                    <span class="card-arrow">⌝</span>
-                    <span class="stat-value" id="global-awards-count">0</span>
-                    <span class="stat-label" id="awards-label">Artworks<br>Completed.</span>
-                </div>
+                        <div class="awards-card">
+                            <span class="card-arrow">⌝</span>
+                            <span class="stat-value" id="global-awards-count">0</span>
+                            <span class="stat-label" id="awards-label">Artworks<br>Completed.</span>
+                        </div>
 
-                <!-- Request Form Card -->
-                <div class="extra-card clickable" id="open-request-form">
-                    <span class="card-arrow">⌝</span>
-                    <div class="request-icon">✏️</div>
-                    <span class="stat-label">Get Your<br>Own Drawing</span>
-                </div>
+                        <div class="extra-card clickable" id="open-request-form">
+                            <span class="card-arrow">⌝</span>
+                            <div class="request-icon">✏️</div>
+                            <span class="stat-label">Get Your<br>Own Drawing</span>
+                        </div>
 
-
-                <div class="tools-card" id="tools-container">
-                    <!-- Tool icons will be injected here -->
-                </div>
-
+                        <div class="tools-card" id="tools-container">
+                        </div>
+                    </section>
+                </main>
             </div>
         </section>
 
-        <!-- Section 2: Full Gallery -->
-        <section id="gallery-section" class="scroll-section">
+        <!-- Scene 2: The Art Gallery -->
+        <section class="section-gallery" id="gallery-section">
             <div class="gallery-content">
-                <div class="gallery-header">
-                    <h2>Studio <span>Gallery</span></h2>
-                    <p>Best of the best artworks</p>
-                </div>
-                <div class="gallery-grid" id="main-gallery-grid">
-                    <!-- Artworks injected here via main.js -->
+                <header class="gallery-header">
+                    <h2>Masterpieces <span>Curated Artworks</span></h2>
+                    <button class="back-home-btn" id="scroll-to-top">↑ Back to Top</button>
+                </header>
+                <div class="gallery-masonry" id="gallery-grid">
+                    <!-- Artworks injected here -->
                 </div>
             </div>
         </section>
@@ -146,37 +105,18 @@
 
     <!-- Request Artwork Modal -->
     <div class="modal-overlay" id="modal-overlay">
-
         <div class="modal-content">
             <button class="close-modal" id="close-modal">&times;</button>
             <h2>🎨 Request a <span>Custom Drawing</span></h2>
             <p class="privacy-note">We value your privacy. Data is never shared with third parties.</p>
-            
             <form id="artwork-request-form">
                 <div class="form-grid">
-                    <div class="input-group">
-                        <label>Your Name</label>
-                        <input type="text" id="req-name" required placeholder="John Doe">
-                    </div>
-                    <div class="input-group">
-                        <label>WhatsApp Number</label>
-                        <input type="tel" id="req-whatsapp" required placeholder="+1 234 ...">
-                    </div>
-                    <div class="input-group">
-                        <label>Contact Number</label>
-                        <input type="tel" id="req-phone" placeholder="+1 234 ...">
-                    </div>
-                    <div class="input-group">
-                        <label>Reference Image URL</label>
-                        <input type="text" id="req-image" placeholder="Paste link to your photo">
-                    </div>
+                    <div class="input-group"><label>Your Name</label><input type="text" id="req-name" required placeholder="John Doe"></div>
+                    <div class="input-group"><label>WhatsApp Number</label><input type="tel" id="req-whatsapp" required placeholder="+1 234 ..."></div>
+                    <div class="input-group"><label>Contact Number</label><input type="tel" id="req-phone" placeholder="+1 234 ..."></div>
+                    <div class="input-group"><label>Reference Image URL</label><input type="text" id="req-image" placeholder="Paste link to your photo"></div>
                 </div>
-                
-                <div class="input-group">
-                    <label>Your Address (for delivery)</label>
-                    <textarea id="req-address" rows="2" placeholder="123 Art Street, Studio City..."></textarea>
-                </div>
-
+                <div class="input-group"><label>Your Address (for delivery)</label><textarea id="req-address" rows="2" placeholder="123 Art Street, Studio City..."></textarea></div>
                 <div class="checkbox-group">
                     <label class="checkbox-container">
                         <input type="checkbox" id="req-showcase">
@@ -184,7 +124,6 @@
                         Allow me to showcase your finished drawing on this website as an example.
                     </label>
                 </div>
-
                 <button type="submit" class="submit-btn" id="submit-request">Send Request</button>
             </form>
         </div>

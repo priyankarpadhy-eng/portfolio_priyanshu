@@ -1,5 +1,8 @@
 import { db, doc, onSnapshot, collection, addDoc, query, orderBy } from './firebase-config.js';
 
+// Register GSAP Plugins
+gsap.registerPlugin(ScrollTrigger);
+
 // Elements to update
 const elements = {
     displayName: document.getElementById('display-name'),
@@ -9,18 +12,16 @@ const elements = {
     projectsCount: document.getElementById('projects-count'),
     awardsCount: document.getElementById('awards-count'),
     globalAwardsCount: document.getElementById('global-awards-count'),
-    experienceYears: document.getElementById('experience-years'),
     videoThumbnail: document.getElementById('video-thumbnail'),
     sphereImage: document.getElementById('sphere-image'),
     clientLogo: document.getElementById('client-logo'),
     clientLabel: document.getElementById('client-label'),
     awardsLabel: document.getElementById('awards-label'),
-    experienceLabel: document.getElementById('experience-label'),
     toolsContainer: document.getElementById('tools-container'),
-    mainGallery: document.getElementById('main-gallery-grid')
+    galleryGrid: document.getElementById('gallery-grid')
 };
 
-// Real-time listener for Firestore data
+// Real-time listener for Portfolio Data
 onSnapshot(doc(db, "portfolio", "main"), (doc) => {
     if (doc.exists()) {
         const data = doc.data();
@@ -31,14 +32,9 @@ onSnapshot(doc(db, "portfolio", "main"), (doc) => {
         if (elements.projectsCount) elements.projectsCount.textContent = data.projects || "0";
         if (elements.awardsCount) elements.awardsCount.textContent = data.awards || "0";
         if (elements.globalAwardsCount) elements.globalAwardsCount.textContent = data.globalAwards || "0";
-        if (elements.experienceYears) elements.experienceYears.textContent = data.experience || "0+";
         if (data.awardsLabel && elements.awardsLabel) elements.awardsLabel.innerHTML = data.awardsLabel.replace(/\n/g, '<br>');
-        if (data.experienceLabel && elements.experienceLabel) elements.experienceLabel.innerHTML = data.experienceLabel.replace(/\n/g, '<br>');
-        if (data.clientLabel && elements.clientLabel) elements.clientLabel.textContent = data.clientLabel;
-        if (data.clientLogo && elements.clientLogo) elements.clientLogo.textContent = data.clientLogo;
         if (data.videoUrl && elements.videoThumbnail) elements.videoThumbnail.src = data.videoUrl;
         if (data.sphereUrl && elements.sphereImage) elements.sphereImage.src = data.sphereUrl;
-
         if (data.tools && elements.toolsContainer) {
             elements.toolsContainer.innerHTML = '';
             const toolsList = Array.isArray(data.tools) ? data.tools : data.tools.split(',');
@@ -52,10 +48,14 @@ onSnapshot(doc(db, "portfolio", "main"), (doc) => {
     }
 });
 
-// Fetch Gallery for Landing Page
-if (elements.mainGallery) {
-    onSnapshot(query(collection(db, "artworks"), orderBy("createdAt", "desc")), (snapshot) => {
-        elements.mainGallery.innerHTML = '';
+// Real-time listener for Gallery Data
+onSnapshot(query(collection(db, "artworks"), orderBy("createdAt", "desc")), (snapshot) => {
+    if (elements.galleryGrid) {
+        elements.galleryGrid.innerHTML = '';
+        if (snapshot.empty) {
+            elements.galleryGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">No artworks yet. Add them from the dashboard!</p>';
+            return;
+        }
         snapshot.forEach(doc => {
             const art = doc.data();
             const card = document.createElement('div');
@@ -63,45 +63,43 @@ if (elements.mainGallery) {
             card.innerHTML = `
                 <img src="${art.imageUrl}" alt="${art.title}">
                 <div class="art-info">
-                    <h3>${art.title || 'Untitled'}</h3>
-                    <p>${art.description || 'Premium Drawing'}</p>
+                    <h3>${art.title || 'Masterpiece'}</h3>
+                    <p>Premium Artwork</p>
                 </div>
             `;
-            elements.mainGallery.appendChild(card);
+            elements.galleryGrid.appendChild(card);
         });
-    });
-}
-
-// GSAP Scroll Animation: Paper into Printer
-gsap.registerPlugin(ScrollTrigger);
-
-// Ensure smooth height
-gsap.set("#gallery-section", { opacity: 0, scale: 0.9, y: 100 });
-
-const tl = gsap.timeline({
-    scrollTrigger: {
-        trigger: "body",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1,
     }
 });
 
-tl.to("#hero-section", {
-    rotateX: -20,
-    scale: 0.85,
-    y: "-50%",
-    opacity: 0,
-    ease: "power1.inOut"
-})
-.to("#gallery-section", {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    marginTop: "0",
-    ease: "power1.out"
-}, "<"); // Start together
+// Cinematic Scroll Animation (Printer Feed Effect)
+const heroSection = document.getElementById('hero-section');
+const gallerySection = document.getElementById('gallery-section');
 
+gsap.to(heroSection, {
+    scrollTrigger: {
+        trigger: "#scroll-container",
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        pin: true,
+        pinSpacing: false
+    },
+    scale: 0.85,
+    opacity: 0,
+    rotateX: 15,
+    y: -100,
+    ease: "power1.inOut"
+});
+
+// Navigation Helpers
+document.getElementById('go-to-gallery')?.addEventListener('click', () => {
+    gallerySection.scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('scroll-to-top')?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 // Modal Logic
 const modal = document.getElementById('modal-overlay');
@@ -123,6 +121,7 @@ if (closeBtn) {
     });
 }
 
+// Form Submission
 if (requestForm) {
     requestForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -143,7 +142,7 @@ if (requestForm) {
 
         try {
             await addDoc(collection(db, "leads"), formData);
-            alert("Request sent successfully! We will contact you on WhatsApp soon.");
+            alert("Request sent successfully! We will contact you soon.");
             requestForm.reset();
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
@@ -167,7 +166,6 @@ if (aboutMeTag) {
         isDragging = true;
         startX = clientX - currentX;
         aboutMeTag.style.transition = 'none';
-        aboutMeTag.style.scale = '1.05';
     };
 
     const handleMove = (clientX) => {
@@ -178,7 +176,6 @@ if (aboutMeTag) {
         aboutMeTag.style.transform = `translateX(${move}px)`;
         if (move >= 100) {
             isDragging = false;
-            aboutMeTag.style.background = '#00b894';
             setTimeout(() => { window.location.href = './auth.html'; }, 200);
         }
     };
@@ -189,7 +186,6 @@ if (aboutMeTag) {
         currentX = 0;
         aboutMeTag.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         aboutMeTag.style.transform = 'translateX(0)';
-        aboutMeTag.style.scale = '1';
     };
 
     aboutMeTag.addEventListener('mousedown', (e) => handleStart(e.clientX));
