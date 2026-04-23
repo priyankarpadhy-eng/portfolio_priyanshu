@@ -3,156 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Portfolio</title>
+    <title>Founder Dashboard | Studio</title>
     <link rel="stylesheet" href="./dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Header Section -->
-        <header class="dash-header">
-            <h1>Founder <span>Control Center</span></h1>
-            <div class="nav-buttons">
-                <button onclick="window.location.href='./index.html'" class="dash-btn btn-secondary">View Site</button>
-                <button id="logout-btn" class="dash-btn btn-danger">Logout</button>
-            </div>
-        </header>
+    <div class="dashboard-wrapper">
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="welcome">
+                    <h1 id="welcome-name">Welcome, Kristin</h1>
+                    <p>Your personal studio overview</p>
+                </div>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search projects...">
+                    </div>
+                    <button class="user-pill" id="logout-btn">
+                        <div class="user-icon">👤</div>
+                    </button>
+                </div>
+            </header>
 
-        <!-- Main Form -->
-        <div class="dash-grid">
-            <!-- Profile Section -->
-            <div class="dash-section">
-                <h3>Profile Information</h3>
-                <div class="input-group">
-                    <label>Full Name (Use \n for line breaks)</label>
-                    <textarea id="edit-name" rows="3" placeholder="Im,\nJon\nDaniel"></textarea>
+            <div class="stats-row">
+                <!-- Profile Card -->
+                <div class="card profile-card">
+                    <div class="card-header">
+                        <span>Profile</span>
+                        <button class="refresh-btn">↺</button>
+                    </div>
+                    <div class="profile-main">
+                        <div class="avatar-wrapper">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Avatar" id="dash-avatar">
+                            <div class="avatar-ring"></div>
+                        </div>
+                        <h2 id="dash-name">Kristin Watson</h2>
+                        <p id="dash-title">Design Manager</p>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="p-stat"><span>👥</span> <b id="dash-engagement">0</b></div>
+                        <div class="p-stat"><span>✅</span> <b id="dash-projects">0</b></div>
+                        <div class="p-stat"><span>🏆</span> <b id="dash-awards">0</b></div>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" id="edit-email" placeholder="hello@example.com">
-                </div>
-                <div class="input-group">
-                    <label>Portfolio Title</label>
-                    <input type="text" id="edit-title" placeholder="Portfolio">
-                </div>
-                <div class="input-group">
-                    <label>Engagement Stats</label>
-                    <input type="text" id="edit-engagement" placeholder="2.4M+">
-                </div>
-            </div>
 
-            <!-- Media Section -->
-            <div class="dash-section">
-                <h3>Media Assets</h3>
-                <div class="input-group">
-                    <label>Feature Video/Image URL</label>
-                    <input type="text" id="edit-video-url" placeholder="https://...">
-                </div>
-                <div class="input-group">
-                    <label>3D Sphere Image URL</label>
-                    <input type="text" id="edit-sphere-url" placeholder="https://...">
-                </div>
-                <div class="input-group">
-                    <label>Tools / Tech Stack (comma separated)</label>
-                    <input type="text" id="edit-tools" placeholder="Ps, Ai, Figma, Ae">
-                </div>
-            </div>
-
-            <!-- Metrics Section -->
-            <div class="dash-section">
-                <h3>Core Metrics</h3>
-                <div class="grid-inner">
-                    <div class="input-group">
-                        <label>Projects Count</label>
-                        <input type="text" id="edit-projects">
+                <!-- Middle Column: Task Cards -->
+                <div class="tasks-column">
+                    <div class="task-grid">
+                        <div class="task-card orange-gradient">
+                            <div class="task-header">
+                                <span>Prioritized tasks</span>
+                                <span class="icon">⏱️</span>
+                            </div>
+                            <div class="task-value">
+                                <h3 id="dash-global-awards">83%</h3>
+                                <p>Global Awards</p>
+                            </div>
+                        </div>
+                        <div class="task-card mint-gradient">
+                            <div class="task-header">
+                                <span>Additional tasks</span>
+                                <span class="icon">✅</span>
+                            </div>
+                            <div class="task-value">
+                                <h3 id="dash-experience">56%</h3>
+                                <p>Years Exp.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label>Awards Count</label>
-                        <input type="text" id="edit-awards">
-                    </div>
-                    <div class="input-group">
-                        <label>Global Awards Count</label>
-                        <input type="text" id="edit-global-awards">
-                    </div>
-                    <div class="input-group">
-                        <label>Experience Years</label>
-                        <input type="text" id="edit-experience">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Labels Section -->
-            <div class="dash-section">
-                <h3>Card Customization (Labels)</h3>
-                <div class="input-group">
-                    <label>Experience Card Label</label>
-                    <input type="text" id="edit-experience-label" placeholder="Years of Experience">
-                </div>
-                <div class="input-group">
-                    <label>Awards Card Label</label>
-                    <input type="text" id="edit-awards-label" placeholder="Global Design Awards">
-                </div>
-                <div class="grid-inner">
-                    <div class="input-group">
-                        <label>Client Label</label>
-                        <input type="text" id="edit-client-label" placeholder="Clients">
-                    </div>
-                    <div class="input-group">
-                        <label>Client Logo (Text/Emoji)</label>
-                        <input type="text" id="edit-client-logo" placeholder="">
+                    
+                    <div class="trackers-card">
+                        <div class="trackers-header">
+                            <p>Tools connected</p>
+                            <span>3 active connections</span>
+                        </div>
+                        <div class="tools-icons" id="dash-tools">
+                            <!-- Tools icons injected here -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Gallery Management Section -->
-        <div class="dash-section" style="grid-column: 1 / -1; margin-top: 30px;">
-            <h3>🖼️ Art Gallery Manager</h3>
-            <div class="grid-inner" style="grid-template-columns: 1fr 1fr 1fr;">
-                <div class="input-group">
-                    <label>Art Title</label>
-                    <input type="text" id="art-title" placeholder="E.g. Neon Portrait">
+            <!-- Bottom Chart Card -->
+            <div class="card chart-card">
+                <div class="chart-header">
+                    <h3>Engagement <span>Productivity analytics</span></h3>
+                    <div class="chart-filter">
+                        Range: <b>Last month</b> ⌵
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>Image URL (Backblaze B2)</label>
-                    <input type="text" id="art-url" placeholder="https://...">
-                </div>
-                <div class="input-group">
-                    <label>Action</label>
-                    <button id="add-art-btn" class="dash-btn btn-primary" style="width: 100%; margin: 0;">Add to Gallery</button>
+                <div class="chart-viz">
+                    <svg viewBox="0 0 800 200" preserveAspectRatio="none">
+                        <path d="M0,150 Q100,50 200,150 T400,100 T600,160 T800,80" fill="none" stroke="#6c5ce7" stroke-width="4" />
+                        <path d="M0,180 Q150,120 300,180 T600,140 T800,190" fill="none" stroke="#ff66c4" stroke-width="3" opacity="0.5" />
+                    </svg>
+                    <div class="chart-footer">
+                        <div class="legend">
+                            <span><i style="background: #ff66c4;"></i> Maximum of focus</span>
+                            <span><i style="background: #6c5ce7;"></i> Min or lack of focus</span>
+                        </div>
+                        <div class="avg-stat">
+                            <h3>41%</h3>
+                            <p>Avg. Conc-ion</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id="gallery-list" class="item-list" style="margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
-                <!-- Art list items -->
+            
+            <!-- Hidden Editor (Opens when clicking profile) -->
+            <div id="editor-overlay" class="editor-hidden">
+                <div class="editor-content">
+                    <h3>Edit Portfolio Data</h3>
+                    <div class="editor-grid">
+                        <div class="input-group"><label>Name</label><input type="text" id="edit-name"></div>
+                        <div class="input-group"><label>Email</label><input type="text" id="edit-email"></div>
+                        <div class="input-group"><label>Title</label><input type="text" id="edit-title"></div>
+                        <div class="input-group"><label>Engagement</label><input type="text" id="edit-engagement"></div>
+                        <div class="input-group"><label>Projects</label><input type="text" id="edit-projects"></div>
+                        <div class="input-group"><label>Awards</label><input type="text" id="edit-awards"></div>
+                        <div class="input-group"><label>Global Awards</label><input type="text" id="edit-global-awards"></div>
+                        <div class="input-group"><label>Experience</label><input type="text" id="edit-experience"></div>
+                        <div class="input-group"><label>Video URL</label><input type="text" id="edit-video-url"></div>
+                        <div class="input-group"><label>Sphere URL</label><input type="text" id="edit-sphere-url"></div>
+                        <div class="input-group"><label>Tools (CSV)</label><input type="text" id="edit-tools"></div>
+                        <div class="input-group"><label>Avatar URL</label><input type="text" id="edit-avatar"></div>
+                    </div>
+                    <div class="editor-actions">
+                        <button id="close-editor" class="dash-btn btn-secondary">Close</button>
+                        <button id="save-all" class="dash-btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
 
-        <!-- Customer Leads Section -->
-        <div class="dash-section" style="grid-column: 1 / -1; margin-top: 30px;">
-            <h3>📩 Customer Requests (Leads)</h3>
-            <div id="leads-container" class="leads-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
-                <!-- Leads will be injected here -->
+        <!-- Right Sidebar -->
+        <aside class="sidebar-right">
+            <div class="side-section">
+                <div class="side-header">
+                    <h3>New Art Requests</h3>
+                    <button class="calendar-btn">📅</button>
+                </div>
+                <div class="requests-list" id="leads-container">
+                    <!-- Leads injected here -->
+                    <div class="request-item">
+                        <div class="r-date">Tue, 11 Jul <br> <b>08:15 am</b></div>
+                        <div class="r-info">
+                            <h4>Loading...</h4>
+                            <p><span>📞</span> WhatsApp</p>
+                        </div>
+                        <div class="r-arrow">↗</div>
+                    </div>
+                </div>
+                <button class="see-all">See all requests ⌵</button>
             </div>
-        </div>
 
-        <!-- Final Action -->
-        <div class="save-bar">
-            <button id="save-all" class="dash-btn btn-primary">Publish Site Settings</button>
-        </div>
+            <div class="side-section developed-areas">
+                <h3>Developed areas <span>Most common areas of interests</span></h3>
+                <div class="skill-list">
+                    <div class="skill-item">
+                        <div class="s-info"><span>Portrait Skills</span> <span>71%</span></div>
+                        <div class="s-bar"><div class="s-progress" style="width: 71%; background: #4a90e2;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="s-info"><span>Sketching</span> <span>92%</span></div>
+                        <div class="s-bar"><div class="s-progress" style="width: 92%; background: #4a90e2;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="s-info"><span>Digital Art</span> <span>33%</span></div>
+                        <div class="s-bar"><div class="s-progress" style="width: 33%; background: #4a90e2;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="s-info"><span>Watercolors</span> <span>56%</span></div>
+                        <div class="s-bar"><div class="s-progress" style="width: 56%; background: #4a90e2;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="s-info"><span>Oil Painting</span> <span>79%</span></div>
+                        <div class="s-bar"><div class="s-progress" style="width: 79%; background: #4a90e2;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </div>
-
-    <style>
-        .item-list img { width: 100%; border-radius: 10px; border: 2px solid #eee; }
-        .art-item { position: relative; }
-        .delete-art { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer; }
-        
-        .lead-card { background: #f9f9fb; padding: 20px; border-radius: 20px; border: 1px solid #eef; position: relative; }
-        .lead-card h4 { margin: 0 0 10px 0; color: var(--primary-purple); }
-        .lead-card p { margin: 5px 0; font-size: 0.9rem; color: #555; }
-        .lead-card .lead-img { width: 100%; height: 150px; object-fit: cover; border-radius: 15px; margin-top: 10px; }
-        .lead-badge { position: absolute; top: 15px; right: 15px; background: #ddd; padding: 4px 8px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; }
-        .lead-badge.allow { background: #b2bec3; color: white; }
-    </style>
-
 
     <script type="module" src="./dashboard.js"></script>
 </body>
