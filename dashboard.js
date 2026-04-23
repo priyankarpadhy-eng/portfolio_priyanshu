@@ -26,28 +26,20 @@ const inputs = {
 // Check Auth State
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        authContainer.classList.add('dashboard-hidden');
         dashboardContainer.classList.remove('dashboard-hidden');
         loadData();
     } else {
-        authContainer.classList.remove('dashboard-hidden');
-        dashboardContainer.classList.add('dashboard-hidden');
-    }
-});
-
-// Login
-loginBtn.addEventListener('click', async () => {
-    const email = document.getElementById('login-email').value;
-    const pass = document.getElementById('login-pass').value;
-    try {
-        await signInWithEmailAndPassword(auth, email, pass);
-    } catch (err) {
-        alert("Login failed: " + err.message);
+        window.location.href = './auth.html';
     }
 });
 
 // Logout
-logoutBtn.addEventListener('click', () => signOut(auth));
+logoutBtn.addEventListener('click', () => {
+    signOut(auth).then(() => {
+        window.location.href = './index.html';
+    });
+});
+
 
 // Load Data from Firestore
 async function loadData() {
