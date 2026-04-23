@@ -137,11 +137,15 @@ body::after {
 /* Main Content Area */
 .main-content {
   flex: 1;
+.main-content {
+  flex: 1;
   display: grid;
-  grid-template-columns: 380px 1fr;
-  padding: 40px;
-  gap: 30px;
+  grid-template-columns: 350px 1fr;
+  padding: 30px;
+  gap: 40px;
+  align-items: start;
 }
+
 
 /* Profile Card */
 .profile-card {
@@ -231,17 +235,17 @@ body::after {
   padding: 10px;
 }
 
-/* Bento Grid */
 .bento-grid {
   display: grid;
   grid-template-areas: 
-    "header header header header"
-    "video video stats extra"
-    "clients sphere awards tools";
-  grid-template-columns: 1fr 1fr 180px 220px;
+    "header header header"
+    "video stats extra"
+    "clients sphere awards";
+  grid-template-columns: 1fr 180px 220px;
   grid-template-rows: auto 240px 180px;
   gap: 20px;
 }
+
 
 .header-row {
   grid-area: header;
@@ -296,8 +300,13 @@ body::after {
 }
 
 .portfolio-title {
-  font-size: 6rem;
+  font-size: 5rem;
   font-weight: 800;
+  color: var(--text-black);
+  letter-spacing: -2px;
+  margin: 0;
+}
+
   letter-spacing: -2px;
   line-height: 1;
   position: relative;
