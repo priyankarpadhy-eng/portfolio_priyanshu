@@ -107,23 +107,29 @@ body::after {
 .about-me-tag {
     background-color: var(--primary-purple);
     color: white;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.9rem;
+    font-weight: 800;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     margin-bottom: 25px;
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
     cursor: grab;
     user-select: none;
     transition: transform 0.1s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    z-index: 10;
+    touch-action: none;
 }
 
-.about-me-tag:active {
-    cursor: grabbing;
+
+.about-me-tag svg {
+    pointer-events: none;
 }
+
+
 
 
 /* Main Content Area */
@@ -147,19 +153,7 @@ body::after {
   overflow: hidden;
 }
 
-.about-me-tag {
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  padding: 8px 16px;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  width: fit-content;
-  margin-bottom: 30px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+
 
 .photo-container {
   width: 260px;
