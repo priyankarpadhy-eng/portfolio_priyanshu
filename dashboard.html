@@ -38,43 +38,65 @@
 
             <section class="bento-grid">
                 <div class="header-row">
-                    <div class="edit-group">
-                        <label>Main Title</label>
-                        <input type="text" id="edit-title" style="font-size: 2rem;">
-                    </div>
-                    
-                    <div class="engagement-card edit-mode">
-                        <div class="eng-info">
-                            <span class="eng-label">Total Engagement</span>
-                            <input type="text" id="edit-engagement" class="dash-input">
-                        </div>
-                    </div>
+                    <div class="input-group">
+                    <label>Portfolio Title</label>
+                    <input type="text" id="edit-title" placeholder="Portfolio">
                 </div>
+                <div class="input-group">
+                    <label>Engagement Stats</label>
+                    <input type="text" id="edit-engagement" placeholder="2.4M+">
+                </div>
+                <div class="input-group">
+                    <label>Tools / Tech Stack (comma separated)</label>
+                    <input type="text" id="edit-tools" placeholder="Figma, Ps, Ai, Ae">
+                </div>
+            </div>
 
-                <div class="stats-column">
-                    <div class="stat-card mint edit-mode">
-                        <label>Projects Count</label>
-                        <input type="text" id="edit-projects" class="dash-input">
+            <div class="input-section">
+                <h3>Card Customization</h3>
+                <div class="input-group">
+                    <label>Experience Label</label>
+                    <input type="text" id="edit-experience-label" placeholder="Years of Experience">
+                </div>
+                <div class="input-group">
+                    <label>Global Awards Label</label>
+                    <input type="text" id="edit-awards-label" placeholder="Global Design Awards">
+                </div>
+                <div class="input-group">
+                    <label>Client Label</label>
+                    <input type="text" id="edit-client-label" placeholder="Clients">
+                </div>
+                <div class="input-group">
+                    <label>Client Logo (Text/Emoji)</label>
+                    <input type="text" id="edit-client-logo" placeholder="">
+                </div>
+            </div>
+
+            <div class="input-section">
+                <h3>Metrics</h3>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Projects</label>
+                        <input type="text" id="edit-projects">
                     </div>
-                    <div class="stat-card purple edit-mode">
-                        <label>Awards Count</label>
-                        <input type="text" id="edit-awards" class="dash-input">
+                    <div class="input-group">
+                        <label>Awards</label>
+                        <input type="text" id="edit-awards">
+                    </div>
+                    <div class="input-group">
+                        <label>Global Awards</label>
+                        <input type="text" id="edit-global-awards">
+                    </div>
+                    <div class="input-group">
+                        <label>Experience Years</label>
+                        <input type="text" id="edit-experience">
                     </div>
                 </div>
+            </div>
 
                 <div class="video-card edit-mode">
                     <label>Video/Image URL</label>
                     <input type="text" id="edit-video-url" class="dash-input">
-                </div>
-
-                <div class="clients-card edit-mode">
-                    <label>Global Awards</label>
-                    <input type="text" id="edit-global-awards" class="dash-input">
-                </div>
-
-                <div class="extra-card edit-mode">
-                    <label>Years of Exp.</label>
-                    <input type="text" id="edit-experience" class="dash-input">
                 </div>
 
                 <div class="sphere-card edit-mode">

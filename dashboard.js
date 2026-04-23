@@ -1,15 +1,13 @@
 import { 
     db, auth, doc, getDoc, setDoc, 
-    signInWithEmailAndPassword, onAuthStateChanged, signOut 
+    onAuthStateChanged, signOut 
 } from './firebase-config.js';
 
-const authContainer = document.getElementById('auth-container');
 const dashboardContainer = document.getElementById('dashboard-container');
-const loginBtn = document.getElementById('login-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const saveAllBtn = document.getElementById('save-all');
 
-// Inputs
+// Inputs Map
 const inputs = {
     name: document.getElementById('edit-name'),
     email: document.getElementById('edit-email'),
@@ -20,7 +18,12 @@ const inputs = {
     globalAwards: document.getElementById('edit-global-awards'),
     experience: document.getElementById('edit-experience'),
     videoUrl: document.getElementById('edit-video-url'),
-    sphereUrl: document.getElementById('edit-sphere-url')
+    sphereUrl: document.getElementById('edit-sphere-url'),
+    tools: document.getElementById('edit-tools'),
+    experienceLabel: document.getElementById('edit-experience-label'),
+    awardsLabel: document.getElementById('edit-awards-label'),
+    clientLabel: document.getElementById('edit-client-label'),
+    clientLogo: document.getElementById('edit-client-logo')
 };
 
 // Check Auth State
@@ -40,7 +43,6 @@ logoutBtn.addEventListener('click', () => {
     });
 });
 
-
 // Load Data from Firestore
 async function loadData() {
     const docRef = doc(db, "portfolio", "main");
@@ -48,16 +50,11 @@ async function loadData() {
     
     if (docSnap.exists()) {
         const data = docSnap.data();
-        inputs.name.value = data.name || "";
-        inputs.email.value = data.email || "";
-        inputs.title.value = data.title || "";
-        inputs.engagement.value = data.engagement || "";
-        inputs.projects.value = data.projects || "";
-        inputs.awards.value = data.awards || "";
-        inputs.globalAwards.value = data.globalAwards || "";
-        inputs.experience.value = data.experience || "";
-        inputs.videoUrl.value = data.videoUrl || "";
-        inputs.sphereUrl.value = data.sphereUrl || "";
+        for (const key in inputs) {
+            if (inputs[key]) {
+                inputs[key].value = data[key] || "";
+            }
+        }
     }
 }
 
@@ -66,19 +63,12 @@ saveAllBtn.addEventListener('click', async () => {
     saveAllBtn.textContent = "Updating...";
     saveAllBtn.disabled = true;
     
-    const data = {
-        name: inputs.name.value,
-        email: inputs.email.value,
-        title: inputs.title.value,
-        engagement: inputs.engagement.value,
-        projects: inputs.projects.value,
-        awards: inputs.awards.value,
-        globalAwards: inputs.globalAwards.value,
-        experience: inputs.experience.value,
-        videoUrl: inputs.videoUrl.value,
-        sphereUrl: inputs.sphereUrl.value,
-        updatedAt: new Date().toISOString()
-    };
+    const data = { updatedAt: new Date().toISOString() };
+    for (const key in inputs) {
+        if (inputs[key]) {
+            data[key] = inputs[key].value;
+        }
+    }
     
     try {
         await setDoc(doc(db, "portfolio", "main"), data);
