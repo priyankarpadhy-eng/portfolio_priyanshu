@@ -137,15 +137,11 @@ body::after {
 /* Main Content Area */
 .main-content {
   flex: 1;
-.main-content {
-  flex: 1;
   display: grid;
-  grid-template-columns: 350px 1fr;
-  padding: 30px;
-  gap: 40px;
-  align-items: start;
+  grid-template-columns: 380px 1fr;
+  padding: 40px;
+  gap: 30px;
 }
-
 
 /* Profile Card */
 .profile-card {
@@ -235,17 +231,17 @@ body::after {
   padding: 10px;
 }
 
+/* Bento Grid */
 .bento-grid {
   display: grid;
   grid-template-areas: 
-    "header header header"
-    "video stats extra"
-    "clients sphere awards";
-  grid-template-columns: 1fr 180px 220px;
+    "header header header header"
+    "video video stats extra"
+    "clients sphere awards tools";
+  grid-template-columns: 1fr 1fr 180px 220px;
   grid-template-rows: auto 240px 180px;
   gap: 20px;
 }
-
 
 .header-row {
   grid-area: header;
@@ -300,13 +296,8 @@ body::after {
 }
 
 .portfolio-title {
-  font-size: 5rem;
+  font-size: 6rem;
   font-weight: 800;
-  color: var(--text-black);
-  letter-spacing: -2px;
-  margin: 0;
-}
-
   letter-spacing: -2px;
   line-height: 1;
   position: relative;
@@ -480,28 +471,8 @@ body::after {
 .awards-card .stat-value { font-size: 2rem; }
 .awards-card .stat-label { font-size: 0.8rem; }
 
-/* Responsive */
-@media (max-width: 1100px) {
-  .portfolio-wrapper {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-    height: 60px;
-    flex-direction: row;
-    writing-mode: horizontal-tb;
-    transform: none;
-    justify-content: center;
-    gap: 30px;
-  }
-  .sidebar-item {
-    writing-mode: horizontal-tb;
-    transform: none;
-  }
-}
 
 /* Responsive Design */
-
 @media (max-width: 1024px) {
     body {
         overflow-y: auto;
