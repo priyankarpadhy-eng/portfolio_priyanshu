@@ -229,13 +229,14 @@ if (window.gsap && window.ScrollTrigger) {
         if (!grid) return;
         grid.innerHTML = '';
         
-        snapshot.forEach((doc, index) => {
-            const art = doc.data();
+        const renderItem = (art, index) => {
             const item = document.createElement('div');
             item.className = 'g-item';
+            // Use picsum as fallback or for now as requested
+            const imageUrl = art.imageUrl || `https://picsum.photos/seed/${index + 100}/800/800`;
             item.innerHTML = `
-                <img src="${art.imageUrl}" alt="${art.title}">
-                <div class="g-label">${art.title}</div>
+                <img src="${imageUrl}" alt="${art.title || 'Artwork'}">
+                <div class="g-label">${art.title || 'Masterpiece ' + (index + 1)}</div>
             `;
             grid.appendChild(item);
             
@@ -250,7 +251,18 @@ if (window.gsap && window.ScrollTrigger) {
                 duration: 0.4,
                 ease: 'back.out(1.4)',
             }, 0.6 + (index * 0.04));
-        });
+        };
+
+        if (snapshot.empty) {
+            // Show 12 beautiful placeholders if empty
+            for (let i = 0; i < 12; i++) {
+                renderItem({}, i);
+            }
+        } else {
+            snapshot.forEach((doc, index) => {
+                renderItem(doc.data(), index);
+            });
+        }
     });
 }
 
