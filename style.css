@@ -656,19 +656,22 @@ body::after {
    margin-bottom: 15px;
 }
 
-.submit-btn {
-   width: 100%;
-   padding: 18px;
-   background: var(--primary-pink);
-   color: white;
-   border: none;
-   border-radius: 20px;
-   font-size: 1.1rem;
-   font-weight: 900;
-   cursor: pointer;
-   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-   margin-top: 10px;
-}
+ .submit-btn {
+    display: block;
+    width: fit-content;
+    margin: 20px auto 0;
+    padding: 16px 40px;
+    background: var(--primary-pink);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 25px rgba(255, 102, 196, 0.2);
+ }
+
 
 .submit-btn:hover {
    transform: scale(1.03);
