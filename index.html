@@ -3,143 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Media Kit</title>
+    <title>Jon Daniel | Design Portfolio</title>
     <link rel="stylesheet" href="./style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-<body class="bg-gradient">
+<body>
     <div id="printer-slot"></div>
     <div id="printer-slot-bottom"></div>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <header class="hero">
-            <p id="portfolio-title">Portfolio</p>
-            <h1 id="display-name">Im,<br>Your<br>Name</h1>
-            <div class="email-tag" id="display-email">
-                hello@example.com
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </div>
-            
-            <div class="scroll-hint">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-                scroll to explore
-            </div>
-        </header>
+    <div id="printer-zone">
+        <div id="sticky-wrap">
+            <div class="portfolio-wrapper" id="portfolio-card">
+                <div class="feed-line feed-line-left"></div>
+                <div class="feed-line feed-line-right"></div>
+                <!-- Vertical Sidebar -->
+                <aside class="sidebar">
+                    <div class="nav-links">
+                        <!-- Navigation items removed as per request -->
+                    </div>
+                </aside>
 
-        <!-- Printer Zone -->
-        <div id="printer-zone">
-            <div id="sticky-wrap">
-                <!-- Bento Grid (The "Paper") -->
-                <section class="portfolio-wrapper" id="portfolio-card">
-                    <div class="feed-line feed-line-left"></div>
-                    <div class="feed-line feed-line-right"></div>
-
-                    <!-- Profile Sidebar -->
-                    <div class="profile-card">
-                        <div class="about-tag" id="about-me-tag">
-                            <span class="user-icon">👤</span>
+                <!-- Main Content -->
+                <main class="main-content">
+                    <!-- Left Profile Card -->
+                    <section class="profile-card">
+                        <div class="about-me-tag" id="about-me-tag">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
                             About Me
                         </div>
                         
-                        <div class="orb-container">
-                            <div class="orb"></div>
+                        <div class="photo-container">
+                            <div class="photo-glow-inner"></div>
+                            <div class="photo-glow"></div>
+                            <img src="./jon_daniel.png" alt="Jon Daniel" class="profile-photo">
                         </div>
 
-                        <div class="name-badge">
-                            <h2 id="card-name">Priyanshu</h2>
-                            <p id="card-title">Creative Director</p>
+                        <div class="profile-name" id="display-name">
+                            Im,<br>Jon<br>Daniel
                         </div>
 
-                        <div class="social-badge">
-                            <div class="apple-logo"></div>
+                        <div class="profile-email" id="display-email">
+                            inquiry@jondaniel.design
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                         </div>
-                    </div>
 
-                    <!-- Right Dashboard Section -->
-                    <div class="dashboard-grid">
+                        <div class="profile-seal">
+                            <svg viewBox="0 0 100 100" width="100%" height="100%">
+                                <defs>
+                                    <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+                                </defs>
+                                <text fill="white" font-family="monospace" font-size="10">
+                                    <textPath xlink:href="#circlePath">
+                                        MY DESIGN PORTFOLIO • 2023 • 
+                                    </textPath>
+                                </text>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- Bento Content -->
+                    <section class="bento-grid">
                         <div class="header-row">
-                            <h1>Portfolio ↗</h1>
+                            <h1 class="portfolio-title" id="portfolio-title">Portfolio</h1>
                             <div class="engagement-card">
                                 <div class="eng-info">
                                     <span class="eng-label">Total Engagement</span>
-                                    <span class="eng-value" id="total-engagement">0.0M+</span>
+                                    <span class="eng-value" id="total-engagement">2.4M+</span>
                                 </div>
-                                <div class="sparkline">
-                                    <!-- Simple SVG Sparkline -->
-                                    <svg viewBox="0 0 100 30">
-                                        <path d="M0,25 Q15,5 30,20 T60,10 T100,15" fill="none" stroke="white" stroke-width="2"/>
+                                <div class="eng-graph">
+                                    <svg viewBox="0 0 120 40" class="eng-svg">
+                                        <path class="sparkline" id="sparkline-path" d="M0,35 Q15,10 30,25 T60,15 T90,30 T120,5" />
+                                        <circle cx="120" cy="5" r="3" fill="var(--primary-purple)" />
                                     </svg>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Stats Grid -->
-                        <div class="stats-grid">
-                            <div class="video-card">
-                                <span class="card-arrow">⌝</span>
-                                <video id="video-thumbnail" autoplay muted loop playsinline src=""></video>
-                                <div class="play-btn">▶</div>
-                            </div>
+                        <!-- Video Feature -->
+                        <div class="video-card">
+                            <img src="./flamingo.png" alt="Flamingo Art" id="video-thumbnail">
+                            <div class="play-btn">▶</div>
+                            <span class="card-arrow" style="color: white; font-size: 1.5rem;">⌝</span>
+                        </div>
 
+                        <!-- Stats Column -->
+                        <div class="stats-column">
                             <div class="stat-card mint">
                                 <span class="card-arrow">⌝</span>
-                                <span class="stat-value" id="projects-count">0</span>
+                                <span class="stat-value" id="projects-count">251</span>
                                 <span class="stat-label">Projects</span>
                             </div>
-
                             <div class="stat-card purple">
                                 <span class="card-arrow">⌝</span>
-                                <span class="stat-value" id="awards-count">0</span>
+                                <span class="stat-value" id="awards-count">156</span>
                                 <span class="stat-label">Awards</span>
                             </div>
-
-                            <div class="clients-card clickable" onclick="window.location.href='./gallery.html'">
-                                <span class="card-arrow">⌝</span>
-                                <div class="apple-logo" id="client-logo">🎨</div>
-                                <span class="stat-label" id="client-label">Art Gallery</span>
-                            </div>
-
-                            <div class="sphere-card">
-                                <img src="./sphere.png" alt="3D Sphere" id="sphere-image">
-                            </div>
-
-                            <div class="awards-card">
-                                <span class="card-arrow">⌝</span>
-                                <span class="stat-value" id="global-awards-count">0</span>
-                                <span class="stat-label" id="awards-label">Artworks<br>Completed.</span>
-                            </div>
-
-                            <div class="extra-card clickable" id="open-request-form">
-                                <span class="card-arrow">⌝</span>
-                                <div class="request-icon">✏️</div>
-                                <span class="stat-label">Get Your<br>Own Drawing</span>
-                            </div>
-
-                            <div class="tools-card" id="tools-container">
-                                <!-- Tools injected via JS -->
-                            </div>
                         </div>
+
+                        <!-- Bottom Row -->
+                        <div class="clients-card clickable" onclick="window.location.href='./gallery.html'">
+                            <span class="card-arrow">⌝</span>
+                            <div class="apple-logo" id="client-logo">🎨</div>
+                            <span class="stat-label" id="client-label">Art Gallery</span>
+                        </div>
+
+                        <div class="sphere-card">
+                            <img src="./sphere.png" alt="3D Sphere" id="sphere-image">
+                        </div>
+
+                        <div class="awards-card">
+                            <span class="card-arrow">⌝</span>
+                            <span class="stat-value" id="global-awards-count">0</span>
+                            <span class="stat-label" id="awards-label">Artworks<br>Completed.</span>
+                        </div>
+
+                        <!-- Request Form Card -->
+                        <div class="extra-card clickable" id="open-request-form">
+                            <span class="card-arrow">⌝</span>
+                            <div class="request-icon">✏️</div>
+                            <span class="stat-label">Get Your<br>Own Drawing</span>
+                        </div>
+
+
+                        <div class="tools-card" id="tools-container">
+                            <!-- Tool icons will be injected here -->
+                        </div>
+
+                    </section>
+                </main>
+            </div>
+
+            <!-- GALLERY (revealed after card sucked in) -->
+            <div id="gallery-section">
+                <div class="gallery-inner">
+                    <div class="gallery-header">
+                        <h2>Art Gallery ✦</h2>
+                        <span>Featured Works · 2025</span>
                     </div>
-                </section>
-
-                <!-- GALLERY SECTION (Hidden initially) -->
-                <div id="gallery-section">
-                    <div class="gallery-inner">
-                        <div class="gallery-header">
-                            <h2>Art Gallery ✦</h2>
-                            <span id="gallery-info">12 works · 2025</span>
-                        </div>
-                        <div class="gallery-grid" id="main-gallery-grid">
-                            <!-- Injected via Firebase in main.js -->
-                        </div>
+                    <div class="gallery-grid" id="main-gallery-grid">
+                        <!-- Items will be injected from main.js / Firestore -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="after-gallery">end of gallery · scroll up to return</div>
 
     <!-- Request Artwork Modal -->
     <div class="modal-overlay" id="modal-overlay">
@@ -186,8 +194,11 @@
         </div>
     </div>
 
-    <div id="after-gallery">end of gallery · scroll up to return</div>
-
+    <!-- GSAP for Printer Effect -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script type="module" src="./main.js"></script>
+
 </body>
 </html>
+
