@@ -53,36 +53,30 @@ document.querySelectorAll('.stat-card, .video-card, .clients-card, .awards-card,
     });
 });
 
-// Slider Logic
-const sliderThumb = document.getElementById('slider-thumb');
-const sliderContainer = document.getElementById('admin-slider');
+// Hidden Slider Logic (Secret Entrance)
+const aboutMeTag = document.getElementById('about-me-tag');
 let isDragging = false;
-let startY = 0;
-let currentY = 0;
+let startX = 0;
 
-if (sliderThumb && sliderContainer) {
-    sliderThumb.addEventListener('mousedown', (e) => {
+if (aboutMeTag) {
+    aboutMeTag.addEventListener('mousedown', (e) => {
         isDragging = true;
-        startY = e.clientY;
-        sliderThumb.style.transition = 'none';
+        startX = e.clientX;
+        aboutMeTag.style.transition = 'none';
     });
 
     document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         
-        const containerRect = sliderContainer.getBoundingClientRect();
-        const thumbHeight = sliderThumb.offsetHeight;
-        const maxMove = containerRect.height - thumbHeight - 10;
+        let move = e.clientX - startX;
+        move = Math.max(0, Math.min(move, 150)); // Max drag 150px
         
-        let move = startY - e.clientY;
-        move = Math.max(0, Math.min(move, maxMove));
+        aboutMeTag.style.transform = `translateX(${move}px)`;
         
-        sliderThumb.style.transform = `translateY(-${move}px)`;
-        
-        // Check if reached top
-        if (move >= maxMove - 5) {
+        // Check if reached threshold (100px)
+        if (move >= 120) {
             isDragging = false;
-            sliderThumb.style.background = '#00b894';
+            aboutMeTag.style.background = '#00b894';
             setTimeout(() => {
                 window.location.href = './auth.html';
             }, 300);
@@ -92,26 +86,23 @@ if (sliderThumb && sliderContainer) {
     document.addEventListener('mouseup', () => {
         if (!isDragging) return;
         isDragging = false;
-        sliderThumb.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        sliderThumb.style.transform = 'translateY(0)';
+        aboutMeTag.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        aboutMeTag.style.transform = 'translateX(0)';
     });
 
     // Touch support
-    sliderThumb.addEventListener('touchstart', (e) => {
+    aboutMeTag.addEventListener('touchstart', (e) => {
         isDragging = true;
-        startY = e.touches[0].clientY;
-        sliderThumb.style.transition = 'none';
+        startX = e.touches[0].clientX;
+        aboutMeTag.style.transition = 'none';
     });
 
     document.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
-        const containerRect = sliderContainer.getBoundingClientRect();
-        const thumbHeight = sliderThumb.offsetHeight;
-        const maxMove = containerRect.height - thumbHeight - 10;
-        let move = startY - e.touches[0].clientY;
-        move = Math.max(0, Math.min(move, maxMove));
-        sliderThumb.style.transform = `translateY(-${move}px)`;
-        if (move >= maxMove - 5) {
+        let move = e.touches[0].clientX - startX;
+        move = Math.max(0, Math.min(move, 150));
+        aboutMeTag.style.transform = `translateX(${move}px)`;
+        if (move >= 120) {
             isDragging = false;
             window.location.href = './auth.html';
         }
@@ -120,8 +111,9 @@ if (sliderThumb && sliderContainer) {
     document.addEventListener('touchend', () => {
         if (!isDragging) return;
         isDragging = false;
-        sliderThumb.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        sliderThumb.style.transform = 'translateY(0)';
+        aboutMeTag.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        aboutMeTag.style.transform = 'translateX(0)';
     });
 }
+
 
