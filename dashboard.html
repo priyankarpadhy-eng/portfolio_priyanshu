@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Portfolio</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./dashboard.css">
+</head>
+<body class="admin-body">
+    <div id="auth-container" class="auth-card">
+        <h2>Admin Login</h2>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-pass" placeholder="Password">
+        <button id="login-btn">Login</button>
+    </div>
+
+    <div id="dashboard-container" class="portfolio-wrapper dashboard-hidden">
+        <aside class="sidebar">
+            <a href="./index.html" class="sidebar-item" style="text-decoration: none;">View Site</a>
+            <span class="sidebar-item" id="logout-btn">Logout</span>
+        </aside>
+
+        <main class="main-content">
+            <section class="profile-card">
+                <div class="about-me-tag">Profile Edit</div>
+                
+                <div class="edit-group">
+                    <label>Profile Image URL (Backblaze B2)</label>
+                    <input type="text" id="edit-portrait-url" placeholder="URL">
+                </div>
+
+                <div class="edit-group">
+                    <label>Full Name (Use \n for line breaks)</label>
+                    <textarea id="edit-name" rows="3"></textarea>
+                </div>
+
+                <div class="edit-group">
+                    <label>Email Address</label>
+                    <input type="email" id="edit-email">
+                </div>
+                
+                <button class="save-btn" id="save-profile">Save Profile</button>
+            </section>
+
+            <section class="bento-grid">
+                <div class="header-row">
+                    <div class="edit-group">
+                        <label>Main Title</label>
+                        <input type="text" id="edit-title" style="font-size: 2rem;">
+                    </div>
+                    
+                    <div class="engagement-card edit-mode">
+                        <div class="eng-info">
+                            <span class="eng-label">Total Engagement</span>
+                            <input type="text" id="edit-engagement" class="dash-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-column">
+                    <div class="stat-card mint edit-mode">
+                        <label>Projects Count</label>
+                        <input type="text" id="edit-projects" class="dash-input">
+                    </div>
+                    <div class="stat-card purple edit-mode">
+                        <label>Awards Count</label>
+                        <input type="text" id="edit-awards" class="dash-input">
+                    </div>
+                </div>
+
+                <div class="video-card edit-mode">
+                    <label>Video/Image URL</label>
+                    <input type="text" id="edit-video-url" class="dash-input">
+                </div>
+
+                <div class="clients-card edit-mode">
+                    <label>Global Awards</label>
+                    <input type="text" id="edit-global-awards" class="dash-input">
+                </div>
+
+                <div class="extra-card edit-mode">
+                    <label>Years of Exp.</label>
+                    <input type="text" id="edit-experience" class="dash-input">
+                </div>
+
+                <div class="sphere-card edit-mode">
+                    <label>3D Sphere URL</label>
+                    <input type="text" id="edit-sphere-url" class="dash-input">
+                </div>
+            </section>
+        </main>
+        
+        <div class="dashboard-footer">
+            <button id="save-all" class="save-btn">Update All Content</button>
+        </div>
+    </div>
+
+    <script type="module" src="./dashboard.js"></script>
+</body>
+</html>

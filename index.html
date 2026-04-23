@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jon Daniel | Design Portfolio</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="portfolio-wrapper">
+        <!-- Vertical Sidebar -->
+        <aside class="sidebar">
+            <span class="sidebar-item">Podcast</span>
+            <span class="sidebar-item">Portfolio</span>
+            <span class="sidebar-item">Research</span>
+            <span class="sidebar-item">Clients</span>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Profile Card -->
+            <section class="profile-card">
+                <div class="about-me-tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+                    About Me
+                </div>
+                
+                <div class="photo-container">
+                    <div class="photo-glow-inner"></div>
+                    <div class="photo-glow"></div>
+                    <img src="./jon_daniel.png" alt="Jon Daniel" class="profile-photo">
+                </div>
+
+                <div class="profile-name" id="display-name">
+                    Im,<br>Jon<br>Daniel
+                </div>
+
+                <div class="profile-email" id="display-email">
+                    inquiry@jondaniel.design
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+
+                <div class="profile-seal">
+                    <svg viewBox="0 0 100 100" width="100%" height="100%">
+                        <defs>
+                            <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+                        </defs>
+                        <text fill="white" font-family="monospace" font-size="10">
+                            <textPath xlink:href="#circlePath">
+                                MY DESIGN PORTFOLIO • 2023 • 
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Bento Content -->
+            <section class="bento-grid">
+                <div class="header-row">
+                    <h1 class="portfolio-title" id="portfolio-title">Portfolio</h1>
+                    <div class="engagement-card">
+                        <div class="eng-info">
+                            <span class="eng-label">Total Engagement</span>
+                            <span class="eng-value" id="total-engagement">2.4M+</span>
+                        </div>
+                        <div class="eng-graph">
+                            <svg viewBox="0 0 120 40" class="eng-svg">
+                                <path class="sparkline" id="sparkline-path" d="M0,35 Q15,10 30,25 T60,15 T90,30 T120,5" />
+                                <circle cx="120" cy="5" r="3" fill="var(--primary-purple)" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Feature -->
+                <div class="video-card">
+                    <img src="./flamingo.png" alt="Flamingo Art" id="video-thumbnail">
+                    <div class="play-btn">▶</div>
+                    <span class="card-arrow" style="color: white; font-size: 1.5rem;">⌝</span>
+                </div>
+
+                <!-- Stats Column -->
+                <div class="stats-column">
+                    <div class="stat-card mint">
+                        <span class="card-arrow">⌝</span>
+                        <span class="stat-value" id="projects-count">251</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-card purple">
+                        <span class="card-arrow">⌝</span>
+                        <span class="stat-value" id="awards-count">156</span>
+                        <span class="stat-label">Awards</span>
+                    </div>
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="clients-card">
+                    <span class="card-arrow">⌝</span>
+                    <div class="apple-logo"></div>
+                    <span class="stat-label">Clients</span>
+                </div>
+
+                <div class="sphere-card">
+                    <img src="./sphere.png" alt="3D Sphere" id="sphere-image">
+                </div>
+
+                <div class="awards-card">
+                    <span class="card-arrow">⌝</span>
+                    <span class="stat-value" id="global-awards-count">172</span>
+                    <span class="stat-label">Global Design<br>Awards.</span>
+                </div>
+
+                <!-- New Expanded Content -->
+                <div class="extra-card">
+                    <span class="card-arrow">⌝</span>
+                    <span class="stat-value" id="experience-years">12+</span>
+                    <span class="stat-label">Years of<br>Experience</span>
+                </div>
+
+                <div class="tools-card" id="tools-container">
+                    <div class="tool-icon">Ps</div>
+                    <div class="tool-icon">Ai</div>
+                    <div class="tool-icon">Figma</div>
+                    <div class="tool-icon">Ae</div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
