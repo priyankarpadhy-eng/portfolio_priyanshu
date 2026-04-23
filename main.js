@@ -57,63 +57,64 @@ document.querySelectorAll('.stat-card, .video-card, .clients-card, .awards-card,
 const aboutMeTag = document.getElementById('about-me-tag');
 let isDragging = false;
 let startX = 0;
+let currentX = 0;
 
 if (aboutMeTag) {
-    aboutMeTag.addEventListener('mousedown', (e) => {
+    const handleStart = (clientX) => {
         isDragging = true;
-        startX = e.clientX;
+        startX = clientX - currentX;
         aboutMeTag.style.transition = 'none';
-    });
+        aboutMeTag.style.scale = '1.05';
+        aboutMeTag.style.boxShadow = '0 10px 30px rgba(108, 92, 231, 0.4)';
+    };
 
-    document.addEventListener('mousemove', (e) => {
+    const handleMove = (clientX) => {
         if (!isDragging) return;
         
-        let move = e.clientX - startX;
-        move = Math.max(0, Math.min(move, 150)); // Max drag 150px
+        let move = clientX - startX;
+        move = Math.max(0, Math.min(move, 120)); // Max drag 120px
+        currentX = move;
         
         aboutMeTag.style.transform = `translateX(${move}px)`;
         
-        // Check if reached threshold (100px)
-        if (move >= 120) {
+        // Success Threshold
+        if (move >= 100) {
             isDragging = false;
             aboutMeTag.style.background = '#00b894';
+            aboutMeTag.style.transform = 'translateX(100px) scale(0.9)';
             setTimeout(() => {
                 window.location.href = './auth.html';
-            }, 300);
+            }, 200);
         }
-    });
+    };
 
-    document.addEventListener('mouseup', () => {
+    const handleEnd = () => {
         if (!isDragging) return;
         isDragging = false;
-        aboutMeTag.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        currentX = 0;
+        aboutMeTag.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         aboutMeTag.style.transform = 'translateX(0)';
-    });
+        aboutMeTag.style.scale = '1';
+        aboutMeTag.style.boxShadow = '0 4px 15px rgba(108, 92, 231, 0.2)';
+        aboutMeTag.style.background = ''; // Reset to CSS default
+    };
 
-    // Touch support
+    // Mouse Events
+    aboutMeTag.addEventListener('mousedown', (e) => handleStart(e.clientX));
+    window.addEventListener('mousemove', (e) => handleMove(e.clientX));
+    window.addEventListener('mouseup', handleEnd);
+
+    // Touch Events
     aboutMeTag.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        startX = e.touches[0].clientX;
-        aboutMeTag.style.transition = 'none';
-    });
-
-    document.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        let move = e.touches[0].clientX - startX;
-        move = Math.max(0, Math.min(move, 150));
-        aboutMeTag.style.transform = `translateX(${move}px)`;
-        if (move >= 120) {
-            isDragging = false;
-            window.location.href = './auth.html';
-        }
-    });
-
-    document.addEventListener('touchend', () => {
-        if (!isDragging) return;
-        isDragging = false;
-        aboutMeTag.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        aboutMeTag.style.transform = 'translateX(0)';
-    });
+        handleStart(e.touches[0].clientX);
+    }, { passive: true });
+    
+    window.addEventListener('touchmove', (e) => {
+        handleMove(e.touches[0].clientX);
+    }, { passive: false });
+    
+    window.addEventListener('touchend', handleEnd);
 }
+
 
 
