@@ -276,16 +276,65 @@ body {
 .s-progress { height: 100%; border-radius: 10px; }
 
 /* Editor Overlay */
-.editor-hidden { display: none; }
+.stats-row.bottom-row {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.studio-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.count-pill {
+    background: #7b6cf622;
+    color: #7b6cf6;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.add-art-form {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.add-art-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.add-art-form input:focus {
+    border-color: #7b6cf6;
+}
+
+.art-list-container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 250px;
+}
+
+.art-item-row {
+    transition: 0.2s;
+}
+
+.art-item-row:hover {
+    background: #f9f9f9;
+}
+
+/* Modal styles fix */
 .editor-active {
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(5px);
   z-index: 2000;
   justify-content: center;
   align-items: center;

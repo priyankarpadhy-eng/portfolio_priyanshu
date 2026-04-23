@@ -85,28 +85,50 @@
                 </div>
             </div>
 
-            <!-- Bottom Chart Card -->
-            <div class="card chart-card">
-                <div class="chart-header">
-                    <h3>Engagement <span>Productivity analytics</span></h3>
-                    <div class="chart-filter">
-                        Range: <b>Last month</b> ⌵
+            <!-- Bottom Row: Chart and Studio Management -->
+            <div class="stats-row bottom-row">
+                <!-- Engagement Chart -->
+                <div class="card chart-card">
+                    <div class="chart-header">
+                        <h3>Engagement <span>Productivity analytics</span></h3>
+                        <div class="chart-filter">
+                            Range: <b>Last month</b> ⌵
+                        </div>
+                    </div>
+                    <div class="chart-viz">
+                        <svg viewBox="0 0 800 150" preserveAspectRatio="none">
+                            <path d="M0,100 Q100,20 200,100 T400,60 T600,120 T800,40" fill="none" stroke="#6c5ce7" stroke-width="4" />
+                            <path d="M0,130 Q150,80 300,130 T600,100 T800,140" fill="none" stroke="#ff66c4" stroke-width="3" opacity="0.5" />
+                        </svg>
+                        <div class="chart-footer">
+                            <div class="legend">
+                                <span><i style="background: #ff66c4;"></i> Max Focus</span>
+                                <span><i style="background: #6c5ce7;"></i> Avg Focus</span>
+                            </div>
+                            <div class="avg-stat">
+                                <h3>41%</h3>
+                                <p>Avg. Productivity</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="chart-viz">
-                    <svg viewBox="0 0 800 200" preserveAspectRatio="none">
-                        <path d="M0,150 Q100,50 200,150 T400,100 T600,160 T800,80" fill="none" stroke="#6c5ce7" stroke-width="4" />
-                        <path d="M0,180 Q150,120 300,180 T600,140 T800,190" fill="none" stroke="#ff66c4" stroke-width="3" opacity="0.5" />
-                    </svg>
-                    <div class="chart-footer">
-                        <div class="legend">
-                            <span><i style="background: #ff66c4;"></i> Maximum of focus</span>
-                            <span><i style="background: #6c5ce7;"></i> Min or lack of focus</span>
+
+                <!-- Studio Management (Gallery + Pins) -->
+                <div class="card studio-card">
+                    <div class="card-header">
+                        <span>Studio Management</span>
+                        <span class="count-pill" id="art-count-pill">0 items</span>
+                    </div>
+                    <div class="add-art-form">
+                        <input type="text" id="new-art-title" placeholder="Artwork Title">
+                        <div style="display: flex; gap: 5px;">
+                            <input type="text" id="new-art-url" placeholder="Image URL">
+                            <button id="add-art-btn" class="dash-btn btn-primary">+</button>
                         </div>
-                        <div class="avg-stat">
-                            <h3>41%</h3>
-                            <p>Avg. Conc-ion</p>
-                        </div>
+                    </div>
+                    <div class="art-list-container" id="art-list-container">
+                        <!-- Artworks list injected here -->
+                        <p style="color: #888; font-size: 0.8rem; padding: 20px; text-align: center;">Loading studio items...</p>
                     </div>
                 </div>
             </div>

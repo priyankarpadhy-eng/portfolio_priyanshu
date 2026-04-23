@@ -1,4 +1,4 @@
-import { db, doc, onSnapshot, collection, addDoc } from './firebase-config.js';
+import { db, doc, onSnapshot, collection, addDoc, query, where } from './firebase-config.js';
 
 // Elements to update
 const elements = {
@@ -223,8 +223,50 @@ if (window.gsap && window.ScrollTrigger) {
         }
     });
 
-    // Gallery Item Animation
-    onSnapshot(collection(db, "artworks"), (snapshot) => {
+// --- PINNED SLIDESHOW LOGIC ---
+const slidesContainer = document.getElementById('slides-container');
+const slideLabel = document.getElementById('slide-label');
+
+function initSlideshow() {
+    onSnapshot(query(collection(db, "artworks"), where("isPinned", "==", true)), (snapshot) => {
+        if (!slidesContainer) return;
+        slidesContainer.innerHTML = '';
+        
+        if (snapshot.empty) {
+            // Fallback if no pins
+            slidesContainer.innerHTML = `<img src="https://picsum.photos/seed/pinned/1200/800" alt="Pinned" class="slide active">`;
+            return;
+        }
+
+        const pinnedArt = [];
+        snapshot.forEach(doc => pinnedArt.push(doc.data()));
+
+        pinnedArt.forEach((art, i) => {
+            const img = document.createElement('img');
+            img.src = art.imageUrl;
+            img.alt = art.title;
+            img.className = `slide ${i === 0 ? 'active' : ''}`;
+            slidesContainer.appendChild(img);
+        });
+
+        // Rotation logic
+        let currentSlide = 0;
+        const slides = slidesContainer.querySelectorAll('.slide');
+        
+        if (slides.length > 1) {
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+                if (slideLabel) slideLabel.textContent = pinnedArt[currentSlide].title || "Pinned Masterpiece";
+            }, 5000);
+        }
+    });
+}
+initSlideshow();
+
+// Gallery Item Animation
+onSnapshot(collection(db, "artworks"), (snapshot) => {
         const grid = document.getElementById('main-gallery-grid');
         if (!grid) return;
         grid.innerHTML = '';

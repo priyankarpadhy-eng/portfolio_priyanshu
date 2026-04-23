@@ -1,6 +1,7 @@
 import { 
     db, auth, doc, getDoc, setDoc, onSnapshot, 
-    collection, query, orderBy, deleteDoc 
+    collection, query, orderBy, deleteDoc, 
+    onAuthStateChanged, where, updateDoc, addDoc 
 } from './firebase-config.js';
 
 // UI Elements
@@ -36,15 +37,110 @@ const inputs = {
     avatarUrl: document.getElementById('edit-avatar')
 };
 
-// Check Auth State
-onAuthStateChanged(auth, (user) => {
+// Check Auth State + Role Protection
+onAuthStateChanged(auth, async (user) => {
     if (user) {
-        loadData();
-        listenToLeads();
+        // Role Check: Check if user has "admin" role in Firestore
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists() && userDoc.data().role === 'admin') {
+            loadData();
+            listenToLeads();
+            listenToArtworks();
+        } else {
+            alert("Access Denied: You do not have the Admin role required to access this dashboard.");
+            auth.signOut();
+            window.location.href = './index.html';
+        }
     } else {
         window.location.href = './auth.html';
     }
 });
+
+// Listen to Artworks for Pinning
+function listenToArtworks() {
+    onSnapshot(collection(db, "artworks"), (snapshot) => {
+        const artList = document.getElementById('art-list-container');
+        if (!artList) return;
+        artList.innerHTML = '';
+        
+        snapshot.forEach(docSnap => {
+            const art = docSnap.data();
+            const item = document.createElement('div');
+            item.className = 'art-item-row';
+            item.style.display = 'flex';
+            item.style.alignItems = 'center';
+            item.style.justifyContent = 'space-between';
+            item.style.padding = '10px';
+            item.style.borderBottom = '1px solid #eee';
+            
+            item.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="${art.imageUrl}" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">
+                    <span>${art.title || 'Untitled'}</span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="pin-btn" data-id="${docSnap.id}" style="background: ${art.isPinned ? '#5ce8c0' : '#eee'}; color: ${art.isPinned ? '#fff' : '#666'}; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                        ${art.isPinned ? '📌 Pinned' : 'Pin'}
+                    </button>
+                    <button class="del-art-btn" data-id="${docSnap.id}" style="background: #ff7675; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Delete</button>
+                </div>
+            `;
+            artList.appendChild(item);
+        });
+
+        // Event Listeners
+        document.querySelectorAll('.pin-btn').forEach(btn => {
+            btn.onclick = async () => {
+                const id = btn.dataset.id;
+                const snap = await getDoc(doc(db, "artworks", id));
+                const current = snap.data().isPinned || false;
+                await updateDoc(doc(db, "artworks", id), { isPinned: !current });
+            };
+        });
+
+        document.querySelectorAll('.del-art-btn').forEach(btn => {
+            btn.onclick = async () => {
+                if (confirm("Delete this artwork?")) {
+                    await deleteDoc(doc(db, "artworks", btn.dataset.id));
+                }
+            };
+        });
+        
+        // Update count pill
+        const countPill = document.getElementById('art-count-pill');
+        if (countPill) countPill.textContent = `${snapshot.size} items`;
+    });
+}
+
+// Add Artwork Logic
+const addArtBtn = document.getElementById('add-art-btn');
+const newArtTitle = document.getElementById('new-art-title');
+const newArtUrl = document.getElementById('new-art-url');
+
+if (addArtBtn) {
+    addArtBtn.onclick = async () => {
+        if (!newArtTitle.value || !newArtUrl.value) return alert("Please enter both title and URL");
+        
+        addArtBtn.disabled = true;
+        addArtBtn.textContent = "...";
+        
+        try {
+            await addDoc(collection(db, "artworks"), {
+                title: newArtTitle.value,
+                imageUrl: newArtUrl.value,
+                isPinned: false,
+                createdAt: new Date().toISOString()
+            });
+            newArtTitle.value = '';
+            newArtUrl.value = '';
+        } catch (e) {
+            alert("Error adding artwork: " + e.message);
+        } finally {
+            addArtBtn.disabled = false;
+            addArtBtn.textContent = "+";
+        }
+    };
+}
 
 // Load Portfolio Data
 async function loadData() {
