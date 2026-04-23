@@ -75,31 +75,33 @@ if (elements.mainGallery) {
 // GSAP Scroll Animation: Paper into Printer
 gsap.registerPlugin(ScrollTrigger);
 
+// Ensure smooth height
+gsap.set("#gallery-section", { opacity: 0, scale: 0.9, y: 100 });
+
 const tl = gsap.timeline({
     scrollTrigger: {
-        trigger: "#scroll-wrapper",
+        trigger: "body",
         start: "top top",
-        end: "+=150%",
-        pin: true,
+        end: "bottom bottom",
         scrub: 1,
     }
 });
 
 tl.to("#hero-section", {
-    rotateX: -15,
-    scale: 0.8,
+    rotateX: -20,
+    scale: 0.85,
     y: "-50%",
     opacity: 0,
-    ease: "power2.inOut"
-}, 0);
-
-tl.to("#gallery-section", {
+    ease: "power1.inOut"
+})
+.to("#gallery-section", {
     opacity: 1,
     scale: 1,
     y: 0,
-    marginTop: 0,
-    ease: "power2.out"
-}, 0.2);
+    marginTop: "0",
+    ease: "power1.out"
+}, "<"); // Start together
+
 
 // Modal Logic
 const modal = document.getElementById('modal-overlay');
