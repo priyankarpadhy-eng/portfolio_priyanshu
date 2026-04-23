@@ -1,197 +1,212 @@
-import { db, doc, onSnapshot, collection, addDoc, query, orderBy } from './firebase-config.js';
+import { 
+    db, doc, onSnapshot, collection, addDoc, query, orderBy, getDocs 
+} from './firebase-config.js';
 
-// Register GSAP Plugins
+// UI Elements
+const displayName = document.getElementById('display-name');
+const cardName = document.getElementById('card-name');
+const cardTitle = document.getElementById('card-title');
+const totalEngagement = document.getElementById('total-engagement');
+const projectsCount = document.getElementById('projects-count');
+const awardsCount = document.getElementById('awards-count');
+const globalAwardsCount = document.getElementById('global-awards-count');
+const toolsContainer = document.getElementById('tools-container');
+const videoThumbnail = document.getElementById('video-thumbnail');
+const sphereImage = document.getElementById('sphere-image');
+const mainGalleryGrid = document.getElementById('main-gallery-grid');
+
+// Animation Elements
+const card = document.getElementById('portfolio-card');
+const gallery = document.getElementById('gallery-section');
+const slotTop = document.getElementById('printer-slot');
+const slotBot = document.getElementById('printer-slot-bottom');
+const feedLines = document.querySelectorAll('.feed-line');
+
+// Register GSAP
 gsap.registerPlugin(ScrollTrigger);
 
-// Elements to update
-const elements = {
-    displayName: document.getElementById('display-name'),
-    displayEmail: document.getElementById('display-email'),
-    portfolioTitle: document.getElementById('portfolio-title'),
-    totalEngagement: document.getElementById('total-engagement'),
-    projectsCount: document.getElementById('projects-count'),
-    awardsCount: document.getElementById('awards-count'),
-    globalAwardsCount: document.getElementById('global-awards-count'),
-    videoThumbnail: document.getElementById('video-thumbnail'),
-    sphereImage: document.getElementById('sphere-image'),
-    clientLogo: document.getElementById('client-logo'),
-    clientLabel: document.getElementById('client-label'),
-    awardsLabel: document.getElementById('awards-label'),
-    toolsContainer: document.getElementById('tools-container'),
-    galleryGrid: document.getElementById('gallery-grid')
-};
+// Initialize Printer Effect Timeline
+function initPrinterAnimation() {
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '#printer-zone',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1.2,
+        }
+    });
 
-// Real-time listener for Portfolio Data
-onSnapshot(doc(db, "portfolio", "main"), (doc) => {
-    if (doc.exists()) {
-        const data = doc.data();
-        if (elements.displayName) elements.displayName.innerHTML = (data.name || "Im,<br>Your<br>Name").replace(/\n/g, '<br>');
-        if (elements.displayEmail) elements.displayEmail.innerHTML = `${data.email || "hello@example.com"} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
-        if (elements.portfolioTitle) elements.portfolioTitle.textContent = data.title || "Portfolio";
-        if (elements.totalEngagement) elements.totalEngagement.textContent = data.engagement || "0.0M+";
-        if (elements.projectsCount) elements.projectsCount.textContent = data.projects || "0";
-        if (elements.awardsCount) elements.awardsCount.textContent = data.awards || "0";
-        if (elements.globalAwardsCount) elements.globalAwardsCount.textContent = data.globalAwards || "0";
-        if (data.awardsLabel && elements.awardsLabel) elements.awardsLabel.innerHTML = data.awardsLabel.replace(/\n/g, '<br>');
-        if (data.videoUrl && elements.videoThumbnail) elements.videoThumbnail.src = data.videoUrl;
-        if (data.sphereUrl && elements.sphereImage) elements.sphereImage.src = data.sphereUrl;
-        if (data.tools && elements.toolsContainer) {
-            elements.toolsContainer.innerHTML = '';
+    // 0–20%: printer slots fade in
+    tl.to([slotTop, slotBot], { opacity: 1, duration: 0.2 }, 0)
+      .to(feedLines, { opacity: 1, duration: 0.2 }, 0)
+
+    // 0–50%: card scales down + squishes (paper feeding into printer)
+      .to(card, {
+        scaleX: 0.82,
+        scaleY: 0.14,
+        borderRadius: '8px',
+        opacity: 0,
+        filter: 'blur(3px)',
+        ease: 'power2.in',
+        duration: 0.5,
+      }, 0)
+
+    // 50%: slots/feed lines fade out
+      .to([slotTop, slotBot, feedLines], { opacity: 0, duration: 0.1 }, 0.5)
+
+    // 55%+: gallery fades in
+      .to(gallery, {
+        opacity: 1,
+        pointerEvents: 'auto',
+        duration: 0.2,
+      }, 0.55);
+
+    // Subtle continuous paper feed texture on card during mid-scroll
+    ScrollTrigger.create({
+        trigger: '#printer-zone',
+        start: 'top top',
+        end: '40% bottom',
+        onUpdate: self => {
+            const p = self.progress;
+            if (p > 0.05 && p < 0.9) {
+                const offset = (p * 400) % 16;
+                feedLines.forEach(fl => {
+                    fl.style.backgroundPositionY = offset + 'px';
+                });
+            }
+        }
+    });
+}
+
+// Real-time Data Sync
+onSnapshot(doc(db, "portfolio", "main"), (docSnap) => {
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        
+        // Header & Bio
+        if (data.name) {
+            displayName.innerHTML = data.name;
+            cardName.textContent = data.name.replace(/<br>/g, ' ').split(' ')[0];
+        }
+        if (data.title) cardTitle.textContent = data.title;
+        
+        // Stats
+        if (data.engagement) totalEngagement.textContent = data.engagement;
+        if (data.projects) projectsCount.textContent = data.projects;
+        if (data.awards) awardsCount.textContent = data.awards;
+        if (data.globalAwards) globalAwardsCount.textContent = data.globalAwards;
+
+        // Assets
+        if (data.videoUrl) videoThumbnail.src = data.videoUrl;
+        if (data.sphereUrl) sphereImage.src = data.sphereUrl;
+
+        // Tools
+        if (data.tools) {
+            toolsContainer.innerHTML = '';
             const toolsList = Array.isArray(data.tools) ? data.tools : data.tools.split(',');
             toolsList.forEach(tool => {
-                const toolDiv = document.createElement('div');
-                toolDiv.className = 'tool-icon';
-                toolDiv.textContent = tool.trim();
-                elements.toolsContainer.appendChild(toolDiv);
+                const pill = document.createElement('div');
+                pill.className = 'tool-pill';
+                pill.textContent = tool.trim();
+                toolsContainer.appendChild(pill);
             });
         }
     }
 });
 
-// Real-time listener for Gallery Data
-onSnapshot(query(collection(db, "artworks"), orderBy("createdAt", "desc")), (snapshot) => {
-    if (elements.galleryGrid) {
-        elements.galleryGrid.innerHTML = '';
-        if (snapshot.empty) {
-            elements.galleryGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">No artworks yet. Add them from the dashboard!</p>';
-            return;
-        }
-        snapshot.forEach(doc => {
-            const art = doc.data();
-            const card = document.createElement('div');
-            card.className = 'art-card';
-            card.innerHTML = `
-                <img src="${art.imageUrl}" alt="${art.title}">
-                <div class="art-info">
-                    <h3>${art.title || 'Masterpiece'}</h3>
-                    <p>Premium Artwork</p>
-                </div>
-            `;
-            elements.galleryGrid.appendChild(card);
-        });
-    }
-});
+// Load Gallery dynamically from Firestore
+async function loadGallery() {
+    const q = query(collection(db, "artworks"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    mainGalleryGrid.innerHTML = '';
 
-// Cinematic Scroll Animation (Printer Feed Effect)
-const heroSection = document.getElementById('hero-section');
-const gallerySection = document.getElementById('gallery-section');
+    snapshot.forEach((docSnap, index) => {
+        const artwork = docSnap.data();
+        const item = document.createElement('div');
+        item.className = 'g-item';
+        
+        // Set dynamic grid spanning
+        const spans = [
+            'grid-column: 1/6; grid-row: 1/4;',
+            'grid-column: 6/9; grid-row: 1/3;',
+            'grid-column: 9/13; grid-row: 1/3;',
+            'grid-column: 6/9; grid-row: 3/5;',
+            'grid-column: 9/11; grid-row: 3/5;',
+            'grid-column: 11/13; grid-row: 3/5;',
+            'grid-column: 1/4; grid-row: 4/6;',
+            'grid-column: 4/7; grid-row: 4/6;',
+            'grid-column: 7/10; grid-row: 5/7;',
+            'grid-column: 10/13; grid-row: 5/7;',
+            'grid-column: 1/5; grid-row: 6/8;',
+            'grid-column: 5/8; grid-row: 6/8;'
+        ];
+        item.style.cssText = spans[index % spans.length];
 
-gsap.to(heroSection, {
-    scrollTrigger: {
-        trigger: "#scroll-container",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-        pin: true,
-        pinSpacing: false
-    },
-    scale: 0.85,
-    opacity: 0,
-    rotateX: 15,
-    y: -100,
-    ease: "power1.inOut"
-});
+        item.innerHTML = `
+            <img src="${artwork.url}" alt="${artwork.title}">
+            <div class="g-label">${artwork.title}</div>
+        `;
+        mainGalleryGrid.appendChild(item);
+    });
 
-// Navigation Helpers
-document.getElementById('go-to-gallery')?.addEventListener('click', () => {
-    gallerySection.scrollIntoView({ behavior: 'smooth' });
-});
-
-document.getElementById('scroll-to-top')?.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+    // Animate gallery items after loading
+    gsap.set('.g-item', { opacity: 0, y: 30, scale: 0.92 });
+    gsap.to('.g-item', {
+        scrollTrigger: {
+            trigger: '#gallery-section',
+            start: 'top 60%',
+        },
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.05,
+        ease: 'back.out(1.4)'
+    });
+}
 
 // Modal Logic
 const modal = document.getElementById('modal-overlay');
 const openBtn = document.getElementById('open-request-form');
 const closeBtn = document.getElementById('close-modal');
-const requestForm = document.getElementById('artwork-request-form');
 
-if (openBtn) {
-    openBtn.addEventListener('click', () => {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-}
-
-if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    });
-}
+openBtn.onclick = () => modal.classList.add('modal-active');
+closeBtn.onclick = () => modal.classList.remove('modal-active');
+window.onclick = (e) => { if (e.target == modal) modal.classList.remove('modal-active'); };
 
 // Form Submission
-if (requestForm) {
-    requestForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById('submit-request');
-        submitBtn.textContent = 'Sending...';
-        submitBtn.disabled = true;
+const requestForm = document.getElementById('artwork-request-form');
+requestForm.onsubmit = async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('submit-request');
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
 
-        const formData = {
-            name: document.getElementById('req-name').value,
-            whatsapp: document.getElementById('req-whatsapp').value,
-            phone: document.getElementById('req-phone').value,
-            imageUrl: document.getElementById('req-image').value,
-            address: document.getElementById('req-address').value,
-            allowShowcase: document.getElementById('req-showcase').checked,
-            status: 'pending',
-            createdAt: new Date().toISOString()
-        };
-
-        try {
-            await addDoc(collection(db, "leads"), formData);
-            alert("Request sent successfully! We will contact you soon.");
-            requestForm.reset();
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        } catch (error) {
-            alert("Error sending request: " + error.message);
-        } finally {
-            submitBtn.textContent = 'Send Request';
-            submitBtn.disabled = false;
-        }
-    });
-}
-
-// Hidden Slider Logic
-const aboutMeTag = document.getElementById('about-me-tag');
-let isDragging = false;
-let startX = 0;
-let currentX = 0;
-
-if (aboutMeTag) {
-    const handleStart = (clientX) => {
-        isDragging = true;
-        startX = clientX - currentX;
-        aboutMeTag.style.transition = 'none';
+    const leadData = {
+        name: document.getElementById('req-name').value,
+        whatsapp: document.getElementById('req-whatsapp').value,
+        phone: document.getElementById('req-phone').value,
+        imageUrl: document.getElementById('req-image').value,
+        address: document.getElementById('req-address').value,
+        allowShowcase: document.getElementById('req-showcase').checked,
+        createdAt: new Date().toISOString(),
+        status: 'new'
     };
 
-    const handleMove = (clientX) => {
-        if (!isDragging) return;
-        let move = clientX - startX;
-        move = Math.max(0, Math.min(move, 120));
-        currentX = move;
-        aboutMeTag.style.transform = `translateX(${move}px)`;
-        if (move >= 100) {
-            isDragging = false;
-            setTimeout(() => { window.location.href = './auth.html'; }, 200);
-        }
-    };
+    try {
+        await addDoc(collection(db, "leads"), leadData);
+        alert('Request sent successfully! I will contact you on WhatsApp soon.');
+        requestForm.reset();
+        modal.classList.remove('modal-active');
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        alert('Error sending request. Please try again.');
+    } finally {
+        submitBtn.textContent = 'Send Request';
+        submitBtn.disabled = false;
+    }
+};
 
-    const handleEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        currentX = 0;
-        aboutMeTag.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        aboutMeTag.style.transform = 'translateX(0)';
-    };
-
-    aboutMeTag.addEventListener('mousedown', (e) => handleStart(e.clientX));
-    window.addEventListener('mousemove', (e) => handleMove(e.clientX));
-    window.addEventListener('mouseup', handleEnd);
-    aboutMeTag.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX), { passive: true });
-    window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX), { passive: false });
-    window.addEventListener('touchend', handleEnd);
-}
+// Initialize
+initPrinterAnimation();
+loadGallery();
