@@ -91,6 +91,7 @@ body::after {
   backdrop-filter: blur(10px);
 }
 
+
 /* Sidebar */
 .sidebar {
     width: 80px;
@@ -107,14 +108,14 @@ body::after {
 .about-me-tag {
     background-color: var(--primary-purple);
     color: white;
-    padding: 10px 20px;
+    padding: 6px 12px;
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     font-weight: 800;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 25px;
+    gap: 6px;
+    margin-bottom: 20px;
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
     cursor: grab;
     user-select: none;
@@ -124,9 +125,10 @@ body::after {
     touch-action: none;
 }
 
-
 .about-me-tag svg {
     pointer-events: none;
+    width: 14px;
+    height: 14px;
 }
 
 
@@ -487,16 +489,96 @@ body::after {
     writing-mode: horizontal-tb;
     transform: none;
   }
-  .main-content {
-    grid-template-columns: 1fr;
-  }
-  .bento-grid {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-      "header header"
-      "video video"
-      "stats stats"
-      "clients sphere"
-      "awards awards";
-  }
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    body {
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .container {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+        overflow: visible;
+        display: block; /* Avoid grid overlap on small screens */
+    }
+
+    .portfolio-wrapper {
+        flex-direction: column;
+        height: auto;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: center;
+        padding: 15px;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        gap: 20px;
+    }
+
+    .profile-card {
+        width: 100%;
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .photo-container {
+        width: 100%;
+        height: 250px;
+    }
+
+    .video-card {
+        height: 220px;
+    }
+
+    .awards-card, .extra-card {
+        height: auto;
+        min-height: 180px;
+    }
+
+    .name-title h1 {
+        font-size: 2.2rem;
+    }
+
+    .bento-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: none; /* Just stack them */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
 }
+
+@media (max-width: 600px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-card h2 {
+        font-size: 2rem;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
